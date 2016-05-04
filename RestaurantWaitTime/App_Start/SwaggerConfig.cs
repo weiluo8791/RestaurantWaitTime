@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Http;
@@ -67,16 +68,16 @@ namespace RestaurantWaitTime
                     //    .Name("apiKey")
                     //    .In("header");
                     //
-                    //c.OAuth2("oauth2")
-                    //    .Description("OAuth2 Implicit Grant")
-                    //    .Flow("implicit")
-                    //    .AuthorizationUrl("http://petstore.swagger.wordnik.com/api/oauth/dialog")
-                    //    //.TokenUrl("https://tempuri.org/token")
-                    //    .Scopes(scopes =>
-                    //    {
-                    //        scopes.Add("read", "Read access to protected resources");
-                    //        scopes.Add("write", "Write access to protected resources");
-                    //    });
+
+//                    c.OAuth2("oauth2")
+//                        .Description("OAuth2 Implicit Grant")
+//                        .Flow("implicit")
+//                        .AuthorizationUrl("http://swagger.io/api/oauth/dialog")
+//                        //.TokenUrl("https://tempuri.org/token")
+//                        .Scopes(scopes =>
+//                        {
+//                            scopes.Add("sampleapi", "Read access to protected resources");
+//                        });
 
                     // Set this flag to omit descriptions for any actions decorated with the Obsolete attribute
                     //c.IgnoreObsoleteActions();
@@ -269,4 +270,32 @@ namespace RestaurantWaitTime
             }
         }
     }
+/*    public class AssignOAuth2SecurityRequirements : IOperationFilter
+    {
+        public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+        {
+            var actFilters = apiDescription.ActionDescriptor.GetFilterPipeline();
+            var allowsAnonymous = actFilters.Select(f => f.Instance).OfType<OverrideAuthorizationAttribute>().Any();
+            if (allowsAnonymous)
+                return; // must be an anonymous method
+
+
+            //var scopes = apiDescription.ActionDescriptor.GetFilterPipeline()
+            //    .Select(filterInfo => filterInfo.Instance)
+            //    .OfType<AllowAnonymousAttribute>()
+            //    .SelectMany(attr => attr.Roles.Split(','))
+            //    .Distinct();
+
+            if (operation.security == null)
+                operation.security = new List<IDictionary<string, IEnumerable<string>>>();
+
+            var oAuthRequirements = new Dictionary<string, IEnumerable<string>>
+        {
+            {"oauth2", new List<string> {"sampleapi"}}
+        };
+
+            operation.security.Add(oAuthRequirements);
+        }
+    }*/
+
 }

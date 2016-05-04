@@ -1,73 +1,71 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
 using RestaurantWaitTime.Models;
 
 namespace RestaurantWaitTime.Controllers
 {
     public class RestaurantsController : ApiController
     {
-        private RestaurantWaitTimeContext db = new RestaurantWaitTimeContext();
+        private readonly RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
         // GET: api/Restaurants
-        [Authorize]
         [HttpGet]
-        public IQueryable<Restaurant> GetRestaurants()
+        [Route("api/GetAllRestaurants")]
+        public IQueryable GetAllRestaurants()
         {
-            return db.Restaurants;
+            return _db.Restaurants
+                .Select(r => new
+                {
+                    r.RestaurantId,r.Name,r.Address,r.City,r.State,
+                    r.Zip, r.Phone,r.WebSite,r.Email, r.Hours, r.Cuisine, r.Capacity
+                });
         }
 
         // GET: api/Restaurants/5
         [ResponseType(typeof(Restaurant))]
-        public async Task<IHttpActionResult> GetRestaurant(string id)
+        [Route("api/GetRestaurant/{restaurantId}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetRestaurant(string restaurantId)
         {
-            Restaurant restaurant = await db.Restaurants.FindAsync(id);
+            var result = await _db.Restaurants
+                .Where(a => a.RestaurantId == restaurantId)
+                .FirstAsync();
+
+            return Ok(result);
+        }
+
+        // PUT: api/Restaurants/5
+        [ResponseType(typeof(void))]
+        [HttpPatch]
+        public async Task<IHttpActionResult> UpdateRestaurant(string restaurantId, Delta<Restaurant> patch)
+        {
+
+            Restaurant restaurant = await _db.Restaurants.FindAsync(restaurantId);
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            return Ok(restaurant);
-        }
-
-        // PUT: api/Restaurants/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutRestaurant(string id, Restaurant restaurant)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != restaurant.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(restaurant).State = EntityState.Modified;
-
             try
             {
-                await db.SaveChangesAsync();
+                patch.Patch(restaurant);
+                _db.Entry(restaurant).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RestaurantExists(id))
+                if (!RestaurantExists(restaurantId))
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -75,46 +73,59 @@ namespace RestaurantWaitTime.Controllers
 
         // POST: api/Restaurants
         [ResponseType(typeof(Restaurant))]
-        public async Task<IHttpActionResult> PostRestaurant(Restaurant restaurant)
+        [HttpPost]
+        public async Task<IHttpActionResult> PostRestaurant(Restaurant item)
         {
+            item.RestaurantId = Guid.NewGuid().ToString();
+            //item.RestaurantId = item.City + "_" + Guid.NewGuid();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Restaurants.Add(restaurant);
+            _db.Restaurants.Add(item);
 
             try
             {
-                await db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (RestaurantExists(restaurant.Id))
+                if (RestaurantExists(item.RestaurantId))
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = restaurant.Id }, restaurant);
+            return CreatedAtRoute("DefaultApi", new { id = item.RestaurantId }, item);
         }
 
         // DELETE: api/Restaurants/5
         [ResponseType(typeof(Restaurant))]
-        public async Task<IHttpActionResult> DeleteRestaurant(string id)
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteRestaurant(string restaurantId)
         {
-            Restaurant restaurant = await db.Restaurants.FindAsync(id);
+//            var id = await _db.Restaurants
+//                .Where(a => a.RestaurantId == restaurantId)
+//                .Select(a => a.Id)
+//                .FirstAsync();
+//
+//            if (id == null)
+//            {
+//                return NotFound();
+//            }
+
+            Restaurant restaurant = await _db.Restaurants.FindAsync(restaurantId);
+
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            db.Restaurants.Remove(restaurant);
-            await db.SaveChangesAsync();
+            _db.Restaurants.Remove(restaurant);
+            await _db.SaveChangesAsync();
 
             return Ok(restaurant);
         }
@@ -123,14 +134,14 @@ namespace RestaurantWaitTime.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool RestaurantExists(string id)
         {
-            return db.Restaurants.Count(e => e.Id == id) > 0;
+            return _db.Restaurants.Count(e => e.RestaurantId == id) > 0;
         }
     }
 }

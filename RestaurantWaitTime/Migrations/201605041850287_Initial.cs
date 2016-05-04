@@ -3,7 +3,7 @@ namespace RestaurantWaitTime.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -11,18 +11,20 @@ namespace RestaurantWaitTime.Migrations
                 "dbo.Restaurants",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        RestaurantId = c.String(nullable: false),
+                        RestaurantId = c.String(nullable: false, maxLength: 128),
                         Name = c.String(nullable: false),
-                        Address = c.String(nullable: false),
+                        Address = c.String(),
+                        City = c.String(nullable: false),
+                        State = c.String(nullable: false),
+                        Zip = c.String(nullable: false),
                         Phone = c.String(),
                         WebSite = c.String(),
                         Email = c.String(),
-                        Hours = c.String(nullable: false),
+                        Hours = c.String(),
                         Cuisine = c.String(),
                         Capacity = c.String(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.RestaurantId);
             
             CreateTable(
                 "dbo.Subscriptions",
@@ -40,24 +42,23 @@ namespace RestaurantWaitTime.Migrations
                 "dbo.Users",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        UserId = c.String(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
                         IdpId = c.String(nullable: false),
                         Name = c.String(nullable: false),
                         Email = c.String(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.UserId);
             
             CreateTable(
                 "dbo.WaitTimes",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        RestaurantId = c.String(nullable: false),
-                        Group = c.Int(nullable: false),
+                        RestaurantId = c.String(nullable: false, maxLength: 128),
+                        GroupNumber = c.Int(nullable: false),
+                        WaitDateTime = c.DateTime(nullable: false),
                         Wait = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => new { t.RestaurantId, t.GroupNumber, t.WaitDateTime });
             
         }
         

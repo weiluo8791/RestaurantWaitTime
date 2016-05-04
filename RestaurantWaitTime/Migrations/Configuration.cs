@@ -10,7 +10,6 @@ namespace RestaurantWaitTime.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "RestaurantWaitTime.Models.RestaurantWaitTimeContext";
         }
 
         protected override void Seed(RestaurantWaitTime.Models.RestaurantWaitTimeContext context)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace RestaurantWaitTime.Controllers
 
     public class WaitTimeInput
     {
-  
+
         public DateTime waitDateTime { get; set; }
         public string RestaurantId { get; set; }
         public int Group { get; set; }
@@ -21,78 +22,44 @@ namespace RestaurantWaitTime.Controllers
     }
 
     public class WaitTimesController : ApiController
-    {   
+    {
         private readonly RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
 
-        // GET: api/WaitTimes/5
         [ResponseType(typeof(WaitTime))]
-        [Route("api/GetCurrentWaitTime/{restaurantId}/{group}")]
+        [Route("api/GetLatestRestaurantWaitTime/{restaurantId}")]
         [HttpGet]
-        public async Task<IHttpActionResult> GetCurrentWaitTime(string restaurantId,int group)
+        public async Task<IHttpActionResult> GetLatestRestaurantWaitTime(string restaurantId)
+        {
+            var selectByGroup = await _db.WaitTimes
+                .Where(a => a.RestaurantId == restaurantId)
+                .GroupBy(a => a.GroupNumber).ToListAsync();
+
+            List<WaitTime> result = selectByGroup.Select(element => element.OrderByDescending(a => a.WaitDateTime).First()).ToList();
+
+            return Ok(result);
+        }
+
+
+        [ResponseType(typeof(WaitTime))]
+        [Route("api/GetLatestRestaurantWaitTimeByGroup/{restaurantId}/{group}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetLatestRestaurantWaitTimeByGroup(string restaurantId, int group)
         {
             var result = await _db.WaitTimes
                 .Where(a => a.RestaurantId == restaurantId)
-                .Where(a => a.Group == group)
-                .OrderByDescending(a=>a.WaitDateTime)                
+                .Where(a => a.GroupNumber == group)
+                .OrderByDescending(a => a.WaitDateTime)
                 .FirstAsync();
 
             return Ok(result);
         }
 
-        // PUT: api/WaitTimes/5
-        [ResponseType(typeof(void))]
+        // PUT: api/WaitTimes
+        [ResponseType(typeof(WaitTime))]
         [HttpPut]
-        public async Task<IHttpActionResult> UpdateCurrentWaitTime(string restaurantId, int group,int wait)
-        {
-            var id = await _db.WaitTimes
-                .Where(a => a.RestaurantId == restaurantId)
-                .Where(a => a.Group == group)
-                .OrderByDescending(a => a.WaitDateTime)
-                .Select(a => a.Id)
-                .FirstAsync();
-
-            if (id==null)
-            {
-                return BadRequest();
-            }
-
-            WaitTime waitTime = await _db.WaitTimes.FindAsync(id);
-
-            if (waitTime == null)
-            {
-                return NotFound();
-            }
-
-
-            waitTime.Wait = wait;
-            waitTime.WaitDateTime = DateTime.UtcNow;
-
-            _db.Entry(waitTime).State = EntityState.Modified;
-
-            try
-            {
-                await _db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WaitTimeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/WaitTimes
         public async Task<IHttpActionResult> PostWaitTime(WaitTime item)
         {
-            item.Id = Guid.NewGuid().ToString();
 
             if (!ModelState.IsValid)
             {
@@ -107,7 +74,7 @@ namespace RestaurantWaitTime.Controllers
             }
             catch (DbUpdateException)
             {
-                if (WaitTimeExists(item.Id))
+                if (WaitTimeExists(item.RestaurantId))
                 {
                     return Conflict();
                 }
@@ -117,22 +84,20 @@ namespace RestaurantWaitTime.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = item.Id }, item);
+            return CreatedAtRoute("DefaultApi", new { id = item.RestaurantId }, item);
         }
 
         // DELETE: api/WaitTimes/5
         [ResponseType(typeof(WaitTime))]
+        [HttpDelete]
         public async Task<IHttpActionResult> DeleteCurrentWaitTime(string restaurantId, int group)
         {
 
-            var id = await _db.WaitTimes
+            var waitTime = await _db.WaitTimes
                 .Where(a => a.RestaurantId == restaurantId)
-                .Where(a => a.Group == group)
+                .Where(a => a.GroupNumber == group)
                 .OrderByDescending(a => a.WaitDateTime)
-                .Select(a => a.Id)
                 .FirstAsync();
-
-            WaitTime waitTime = await _db.WaitTimes.FindAsync(id);
 
             if (waitTime == null)
             {
@@ -156,7 +121,7 @@ namespace RestaurantWaitTime.Controllers
 
         private bool WaitTimeExists(string id)
         {
-            return _db.WaitTimes.Count(e => e.Id == id) > 0;
+            return _db.WaitTimes.Count(e => e.RestaurantId == id) > 0;
         }
     }
 }
