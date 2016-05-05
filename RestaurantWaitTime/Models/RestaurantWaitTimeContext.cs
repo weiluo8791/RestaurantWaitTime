@@ -22,5 +22,7 @@ namespace RestaurantWaitTime.Models
         public DbSet<User> Users { get; set; }
 
         public DbSet<Subscription> Subscriptions { get; set; }
+
+        public System.Data.Entity.DbSet<RestaurantWaitTime.Models.RestaurantUser> RestaurantUsers { get; set; }
     }
 }

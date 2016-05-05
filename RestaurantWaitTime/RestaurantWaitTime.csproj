@@ -161,14 +161,16 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\RestaurantsController.cs" />
+    <Compile Include="Controllers\RestaurantUsersController.cs" />
     <Compile Include="Controllers\SubscriptionsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WaitTimesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201605041850287_Initial.cs" />
-    <Compile Include="Migrations\201605041850287_Initial.Designer.cs">
-      <DependentUpon>201605041850287_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201605050522206_Initial.cs" />
+    <Compile Include="Migrations\201605050522206_Initial.Designer.cs">
+      <DependentUpon>201605050522206_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RestaurantWaitTimeContext.cs" />
@@ -189,8 +191,8 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605041850287_Initial.resx">
-      <DependentUpon>201605041850287_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605050522206_Initial.resx">
+      <DependentUpon>201605050522206_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

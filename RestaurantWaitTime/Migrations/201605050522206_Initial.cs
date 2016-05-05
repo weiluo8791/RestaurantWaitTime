@@ -27,6 +27,18 @@ namespace RestaurantWaitTime.Migrations
                 .PrimaryKey(t => t.RestaurantId);
             
             CreateTable(
+                "dbo.RestaurantUsers",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        IdpId = c.String(nullable: false),
+                        Name = c.String(nullable: false),
+                        Type = c.String(nullable: false),
+                        Email = c.String(),
+                    })
+                .PrimaryKey(t => t.UserId);
+            
+            CreateTable(
                 "dbo.Subscriptions",
                 c => new
                     {
@@ -45,6 +57,7 @@ namespace RestaurantWaitTime.Migrations
                         UserId = c.String(nullable: false, maxLength: 128),
                         IdpId = c.String(nullable: false),
                         Name = c.String(nullable: false),
+                        Type = c.String(nullable: false),
                         Email = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);
@@ -67,6 +80,7 @@ namespace RestaurantWaitTime.Migrations
             DropTable("dbo.WaitTimes");
             DropTable("dbo.Users");
             DropTable("dbo.Subscriptions");
+            DropTable("dbo.RestaurantUsers");
             DropTable("dbo.Restaurants");
         }
     }

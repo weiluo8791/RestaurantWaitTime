@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web;
 using Newtonsoft.Json;
 
 namespace RestaurantWaitTime.Models
@@ -68,14 +67,19 @@ namespace RestaurantWaitTime.Models
     [CustomValidation(typeof(User), "ValidateUser")]
     public class User
     {
-        [Required]
+        [JsonIgnore]
+        [Column(Order = 1)]
         public string UserId { get; set; }
         [Required]
+        [Column(Order = 2)]
         public string IdpId { get; set; }
         [Required]
+        [Column(Order = 3)]
         public string Name { get; set; }
+        [Required]
+        [Column(Order = 4)]
+        public string Type { get; set; }
         public string Email { get; set; }
-
         public static ValidationResult ValidateUser(User user, ValidationContext ctx)
         {
             return ValidationResult.Success;
@@ -96,6 +100,30 @@ namespace RestaurantWaitTime.Models
         public string FeedBack { get; set; }
 
         public static ValidationResult ValidateSubscription(Subscription subscription, ValidationContext ctx)
+        {
+            return ValidationResult.Success;
+        }
+    }
+
+    [CustomValidation(typeof(RestaurantUser), "ValidateUser")]
+    public class RestaurantUser
+    {
+        [Key]
+        [JsonIgnore]
+        [Column(Order = 1)]
+        public string UserId { get; set; }
+        [Required]
+        [Column(Order = 2)]
+        public string IdpId { get; set; }
+        [Required]
+        [Column(Order = 3)]
+        public string Name { get; set; }
+        [Required]
+        [Column(Order = 4)]
+        public string Type { get; set; }
+        public string Email { get; set; }
+
+        public static ValidationResult ValidateUser(RestaurantUser restaurantUser, ValidationContext ctx)
         {
             return ValidationResult.Success;
         }

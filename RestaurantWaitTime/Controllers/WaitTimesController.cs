@@ -11,16 +11,6 @@ using RestaurantWaitTime.Models;
 
 namespace RestaurantWaitTime.Controllers
 {
-
-    public class WaitTimeInput
-    {
-
-        public DateTime waitDateTime { get; set; }
-        public string RestaurantId { get; set; }
-        public int Group { get; set; }
-        public int Wait { get; set; }
-    }
-
     public class WaitTimesController : ApiController
     {
         private readonly RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
