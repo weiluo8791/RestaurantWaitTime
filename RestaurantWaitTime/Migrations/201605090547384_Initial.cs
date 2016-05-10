@@ -23,6 +23,8 @@ namespace RestaurantWaitTime.Migrations
                         Hours = c.String(),
                         Cuisine = c.String(),
                         Capacity = c.String(),
+                        Property_ID = c.String(),
+                        Location = c.String(),
                     })
                 .PrimaryKey(t => t.RestaurantId);
             
@@ -34,6 +36,7 @@ namespace RestaurantWaitTime.Migrations
                         IdpId = c.String(nullable: false),
                         Name = c.String(nullable: false),
                         Type = c.String(nullable: false),
+                        RestaurantId = c.String(nullable: false),
                         Email = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);

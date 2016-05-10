@@ -33,6 +33,8 @@ namespace RestaurantWaitTime.Models
         public string Hours { get; set; }
         public string Cuisine { get; set; }
         public string Capacity { get; set; }
+        public string Property_ID { get; set; }
+        public string Location { get; set; }
 
         public static ValidationResult ValidateRestaurantDetail(Restaurant restaurant, ValidationContext ctx)
         {
@@ -121,6 +123,10 @@ namespace RestaurantWaitTime.Models
         [Required]
         [Column(Order = 4)]
         public string Type { get; set; }
+        [Required]
+        [Column(Order = 5)]
+        public string RestaurantId { get; set; }
+        [Column(Order = 6)]
         public string Email { get; set; }
 
         public static ValidationResult ValidateUser(RestaurantUser restaurantUser, ValidationContext ctx)

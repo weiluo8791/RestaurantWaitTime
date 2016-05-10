@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{3CB246E3-9355-443E-92E2-F15F39D2ADE4}</ProjectGuid>
+    <ProjectGuid>{3C1DB5F4-B892-438F-BA7D-60C14BAC3808}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RestaurantClient</RootNamespace>
@@ -98,6 +98,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\LoggedInLabelConverter.cs" />
+    <Compile Include="Common\LoginStatusConverter.cs" />
+    <Compile Include="Common\MiniViewModel.cs" />
+    <Compile Include="Common\ObservableDictionary.cs" />
+    <Compile Include="Common\ProviderTypesEnumConverter.cs" />
+    <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

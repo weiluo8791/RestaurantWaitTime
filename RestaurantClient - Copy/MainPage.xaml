@@ -56,7 +56,7 @@
                        VerticalAlignment="Bottom"
                        IsHitTestVisible="false"
                        Style="{StaticResource HeaderTextBlockStyle}"
-                       Text="Restaurant Wait Time Client Application"
+                       Text="{StaticResource AppName}"
                        TextWrapping="NoWrap" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
             <TextBlock x:Name="PageSubTitle"
                        Grid.Column="1"
@@ -65,7 +65,7 @@
                        FontSize="40"
                        IsHitTestVisible="false"
                        Style="{StaticResource HeaderTextBlockStyle}"
-                       Text="CSCI-E64 Final by Wei Qi Luo"
+                       Text="{StaticResource AppSubTitle}"
                        TextWrapping="NoWrap" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
 
             <ProgressBar Name="progressBar"
@@ -87,18 +87,18 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="400" />
                 </Grid.ColumnDefinitions>
-
+               
                 <TextBlock Grid.Column="1" Text="Description" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                 <TextBlock Grid.Column="2" Text="Votes" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                 <TextBlock Grid.Column="3" Text="VoteModDate" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
             </Grid>
-
+            
 
         </Grid>
 
 
 
-        <Grid x:Name="Profile" Margin="84,214,87,43" Grid.Row="1">
+        <Grid x:Name="Profile" Margin="87,214,244,43" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -109,70 +109,38 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="1" Text="Name" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="33.667,42,32.667,64.333" Grid.RowSpan="2" Width="65" Height="55"/>
+            <TextBox Grid.Column="2" x:Name="TextBoxName" Text="{Binding Name, Mode=TwoWay}" FontSize="20" Margin="11.333,25,8.667,1.667"
+                     Grid.Row="0" Grid.ColumnSpan="6" Height="54" Width="696" />
 
-            <TextBlock Grid.Column="1" Text="Name" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="49,42,0,18.667" RenderTransformOrigin="1.43,0.554" HorizontalAlignment="Left" FontSize="13.33"/>
-            <TextBox Grid.Column="2" x:Name="TextBoxName" Text="{Binding Name, Mode=TwoWay}" FontSize="20" Margin="0.667,26,0.333,0.667"
-                     Grid.Row="0" Height="54" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Profile Picture" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,54.333,12.667,8.333" Width="115" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="13.333"/>
+            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding PictureUrl, Mode=TwoWay}" FontSize="20" Margin="11.333,24.333,7.667,2.333" Grid.ColumnSpan="6" Height="54" />
 
-            <TextBlock Grid.Column="4" Text="Address" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="30.667,40,26.667,0" Width="50" FontSize="13.333" RenderTransformOrigin="1.343,-0.298" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <TextBox Grid.Column="5" Text="{Binding Address, Mode=TwoWay}" FontSize="20" Margin="0.333,27,0,80.333" Height="54" Grid.RowSpan="2" />
+            <TextBlock Grid.Row="2" Text="Gender" Margin="31.667,42.667,34.667,63" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" Grid.RowSpan="2" FontSize="13.333" Height="55" Width="65"/>
+            <!--<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Gender, Mode=TwoWay}" FontSize="20" Grid.ColumnSpan="6" Margin="12.333,23.667,9.667,1" Width="694"/>-->
+            <ComboBox Grid.Row="2" Grid.Column="2" SelectedValue="{Binding Gender, Mode=TwoWay}" x:Name="GenderComboBox" FontSize="20" Grid.ColumnSpan="6" Margin="12.333,23.667,9.667,1" Width="694"></ComboBox>
 
-            <TextBlock Text="City" Margin="42.333,40,41.333,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="7" FontSize="13.333" Height="20" SelectionChanged="TextBlock_SelectionChanged" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="-1.091,0.35"/>
-            <TextBox Grid.Column="8" HorizontalAlignment="Stretch" Text="{Binding City, Mode=TwoWay}" FontSize="20" Margin="0.667,29,0.333,1.667" IsReadOnly="True" />
+            <TextBlock Grid.Row="3" Text="Vote Balance" Margin="13.667,41,32.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" FontSize="13.333" Height="20" VerticalAlignment="Top"/>
+            <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding VoteBalance}" FontSize="20" Grid.ColumnSpan="6" Margin="12.333,24,9.667,2" IsReadOnly="True" Width="694" Height="54" />
 
-            <TextBlock Text="State" Margin="0,37.333,57.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="1" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding State, Mode=TwoWay}" FontSize="20" Margin="0.667,25.333,0.333,1.333" IsReadOnly="True" Height="54" Grid.Row="1" />
+            <TextBlock Grid.Row="4" Text="Role" Margin="41.667,41,24.667,64.667" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" Grid.RowSpan="2" Width="65" Height="55"/>
+            <TextBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Stretch"  Text="{Binding Role}" FontSize="20" Grid.ColumnSpan="6" Margin="12.333,24,9.667,2.667" IsReadOnly="True" Width="694" Height="54"/>
 
-            <TextBlock Text="Zip" Margin="0,36.333,57.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="4" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="1" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="5" HorizontalAlignment="Stretch" Text="{Binding Zip, Mode=TwoWay}" FontSize="20" Margin="0.333,26.333,1,0.333" IsReadOnly="True" Height="54" Grid.Row="1" />
-
-            <TextBlock Text="Phone" Margin="0,39.333,43.333,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="7" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="1" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="8" HorizontalAlignment="Stretch" Text="{Binding Phone, Mode=TwoWay}" FontSize="20" Margin="1,24.333,0.333,2.333" IsReadOnly="True" Grid.Row="1" />
-
-            <TextBlock Text="WebSite" Margin="0,36.667,47.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="2" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding website, Mode=TwoWay}" FontSize="20" Margin="0.667,27.667,19.333,79" IsReadOnly="True" Height="54" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" />
-
-            <TextBlock Text="Email" Margin="0,36.667,54.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="4" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="2" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="5" HorizontalAlignment="Stretch" Text="{Binding Email, Mode=TwoWay}" FontSize="20" Margin="0.333,27.667,19,79" IsReadOnly="True" Height="54" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" />
-
-            <TextBlock Text="Hours" Margin="0,40.667,46.333,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="7" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="2" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="8" HorizontalAlignment="Stretch" Text="{Binding Hours, Mode=TwoWay}" FontSize="20" Margin="1,24.667,-0.667,2" IsReadOnly="True" Height="54" Grid.Row="2" />
-
-            <TextBlock Text="Cuisine" Margin="0,38,52.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="3" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding Cuisine, Mode=TwoWay}" FontSize="20" Margin="0.333,25,0,1" IsReadOnly="True" Height="54" Grid.Row="3" />
-
-            <TextBlock Text="Capacity" Margin="0,37,44.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="4" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="3" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="5" HorizontalAlignment="Stretch" Text="{Binding Capacity, Mode=TwoWay}" FontSize="20" Margin="0.333,27,0,79.667" IsReadOnly="True" Height="54" Grid.Row="3" Grid.RowSpan="2" />
-
-            <TextBlock Text="Property ID" Margin="0,40,34,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="7" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="3" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="8" HorizontalAlignment="Stretch" Text="{Binding Property_ID, Mode=TwoWay}" FontSize="20" Margin="0,26,0.333,0" IsReadOnly="True" Height="54" Grid.Row="3" />
-
-            <TextBlock Text="Location" Margin="0,38,49.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="4" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding Location, Mode=TwoWay}" FontSize="20" Margin="0.333,26,0,0.667" IsReadOnly="True" Height="54" Grid.Row="4" />
+            <TextBlock Grid.Row="5" Text="Registration Status" Margin="1.667,33.333,19.667,5.667" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Height="41" FontSize="13.333"/>
+            <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding RegistrationStatus}" FontSize="20" Margin="11.333,24.333,7.667,1.667" Grid.ColumnSpan="6" IsReadOnly="True" Height="54" />
 
 
         </Grid>
-
-        <Button Name="RestaurantDetail"
-                Grid.Row="1"
-                Width="293"
-                Height="58"
-                Margin="161,118,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Click="RestaurantDetail_Click"
-                Content="Restaurant"
-                FontSize="20" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
 
         <Button x:Name="LoginLogoutButton"
                 Grid.Row="1"
@@ -200,20 +168,10 @@
                        TextWrapping="Wrap" />
         </Border>
 
-        <Button x:Name="WaitTime"
-                Grid.Row="1"
-                Width="293"
-                Height="58"
-                Margin="825,115,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Click="WaitTime_Click"
-                Content="Wait Time"
-                FontSize="20" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
 
 
         <StackPanel Grid.Row="1"
-                    Orientation="Horizontal" Margin="0,27,0,-1" Height="1000" Width="1440">
+                    Orientation="Horizontal" Margin="0,27,0,-1">
             <RadioButton Margin="219,24,0,0"
                          HorizontalAlignment="Left"
                          Name="TwitterRadioButton"

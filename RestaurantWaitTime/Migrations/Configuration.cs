@@ -1,3 +1,10 @@
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Text.RegularExpressions;
+using RestaurantWaitTime.Models;
+
+
 namespace RestaurantWaitTime.Migrations
 {
     using System;
@@ -14,18 +21,32 @@ namespace RestaurantWaitTime.Migrations
 
         protected override void Seed(RestaurantWaitTime.Models.RestaurantWaitTimeContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            //load from file c:\Active_Food_Establishment.txt which contains restaurant from Boston
+            //var allRestaurants = File.ReadAllLines("c:\\Active_Food_Establishment.txt").Select(a => a.Split(','));
+            var allRestaurants = File.ReadAllLines("c:\\Active_Food_Establishment.txt")
+                .Select(a => Regex.Split(a, ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"));
+            //                .Select(a =>a.Split('"')
+            //                     .Select((element, index) => index % 2 == 0  // If even index
+            //                                           ? element.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)  // Split the item
+            //                                           : new[] { element })  // Keep the entire item
+            //                     .SelectMany(element => element).ToList());
+            foreach (var eachRestaurant in allRestaurants)
+            {
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+                context.Restaurants.AddOrUpdate(x => x.RestaurantId,
+                    new Restaurant()
+                    {
+                        RestaurantId = Guid.NewGuid().ToString(),
+                        Name = eachRestaurant[0],
+                        Address = eachRestaurant[1],
+                        City = (eachRestaurant[2] != "") ? eachRestaurant[2] : "Unknown",
+                        State = (eachRestaurant[3] != "") ? eachRestaurant[3] : "Unknown",
+                        Zip = (eachRestaurant[4] != "") ? eachRestaurant[4] : "Unknown",
+                        Phone = eachRestaurant[5],
+                        Property_ID = eachRestaurant[6],
+                        Location = eachRestaurant[7].Replace("\"", "").Replace("(", "").Replace(")", "")
+                    });
+            }
         }
     }
 }

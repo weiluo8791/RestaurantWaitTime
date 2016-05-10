@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.ApplicationInsights;
+using Microsoft.WindowsAzure.MobileServices;
 
-namespace UserClient
+namespace RestaurantClient
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -28,11 +22,44 @@ namespace UserClient
         /// </summary>
         public App()
         {
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
-                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
-                Microsoft.ApplicationInsights.WindowsCollectors.Session);
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            WindowsAppInitializer.InitializeAsync(
+                WindowsCollectors.Metadata |
+                WindowsCollectors.Session);
+            InitializeComponent();
+            Suspending += OnSuspending;
+        }
+
+        // .NET Mobile Service
+        public static MobileServiceClient MobileServiceDotNet = new MobileServiceClient("https://restaurantwaittime.azurewebsites.net/");
+
+        /// <summary>
+        /// authenticate as an asynchronous operation.
+        /// </summary>
+        /// <param name="providerType">Type of the provider to authenticate with, default is twitter.</param>
+        /// <returns>Task.</returns>
+        public static async Task AuthenticateUserAsync(MobileServiceAuthenticationProvider providerType)
+        {
+
+            while (MobileServiceDotNet.CurrentUser == null || MobileServiceDotNet.CurrentUser.UserId == null)
+            {
+                string message;
+
+                try
+                {
+                    // Authenticate using provided provider type.
+                    await MobileServiceDotNet.LoginAsync(providerType);
+                    message = string.Format("You are now logged in - {0}", MobileServiceDotNet.CurrentUser.UserId);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    message = "You must log in. Login Required" + ex.Message;
+                }
+
+                var dialog = new MessageDialog(message);
+                dialog.Commands.Add(new UICommand("OK"));
+                await dialog.ShowAsync();
+
+            }
         }
 
         /// <summary>
@@ -42,14 +69,12 @@ namespace UserClient
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = true;
-            }
+//            if (System.Diagnostics.Debugger.IsAttached)
+//            {
+//                this.DebugSettings.EnableFrameRateCounter = true;
+//            }
 #endif
-
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -70,15 +95,18 @@ namespace UserClient
                 Window.Current.Content = rootFrame;
             }
 
-            if (rootFrame.Content == null)
+            if (e.PrelaunchActivated == false)
             {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                }
+                // Ensure the current window is active
+                Window.Current.Activate();
             }
-            // Ensure the current window is active
-            Window.Current.Activate();
         }
 
         /// <summary>

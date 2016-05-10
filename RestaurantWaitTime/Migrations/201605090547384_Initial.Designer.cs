@@ -13,7 +13,7 @@ namespace RestaurantWaitTime.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201605050522206_Initial"; }
+            get { return "201605090547384_Initial"; }
         }
         
         string IMigrationMetadata.Source

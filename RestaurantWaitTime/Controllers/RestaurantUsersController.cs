@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -18,11 +19,29 @@ namespace RestaurantWaitTime.Controllers
     {
         private readonly RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
+//        [HttpGet]
+//        [Route("api/GetAllRestaurantUsers")]
+//        public IQueryable GetAllRestaurantUsers()
+//        {
+//            return _db.RestaurantUsers
+//                .Select(r => new
+//                {
+//                    r.UserId,
+//                    r.IdpId,
+//                    r.Name,
+//                    r.Type,
+//                    r.Email
+//                });
+//        }
+
         [HttpGet]
+        [Authorize]
         [Route("api/GetAllRestaurantUsers")]
-        public IQueryable GetAllRestaurantUsers()
+        public async Task<HttpResponseMessage> GetAllRestaurantUsers()
         {
-            return _db.RestaurantUsers
+            string idpUserId = await GetIdpUser();
+
+            return Request.CreateResponse(HttpStatusCode.OK,_db.RestaurantUsers
                 .Select(r => new
                 {
                     r.UserId,
@@ -30,7 +49,7 @@ namespace RestaurantWaitTime.Controllers
                     r.Name,
                     r.Type,
                     r.Email
-                });
+                }).ToList());
         }
 
         [Route("api/GetRestaurantUser/{userId}")]

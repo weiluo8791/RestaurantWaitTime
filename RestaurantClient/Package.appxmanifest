@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="6b437811-df8a-4b45-b9b6-96e2dbb0452e"
+    Name="39cf6b9e-c6cf-4912-8cb2-fcfe1fd843fa"
     Publisher="CN=Wei"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="6b437811-df8a-4b45-b9b6-96e2dbb0452e" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="39cf6b9e-c6cf-4912-8cb2-fcfe1fd843fa" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>RestaurantClient</DisplayName>
