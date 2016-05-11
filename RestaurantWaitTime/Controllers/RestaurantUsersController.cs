@@ -39,8 +39,7 @@ namespace RestaurantWaitTime.Controllers
         [Route("api/GetAllRestaurantUsers")]
         public async Task<HttpResponseMessage> GetAllRestaurantUsers()
         {
-            string idpUserId = await GetIdpUser();
-
+            
             return Request.CreateResponse(HttpStatusCode.OK,_db.RestaurantUsers
                 .Select(r => new
                 {
@@ -52,11 +51,14 @@ namespace RestaurantWaitTime.Controllers
                 }).ToList());
         }
 
-        [Route("api/GetRestaurantUser/{userId}")]
-        [ResponseType(typeof(RestaurantUser))]
         [HttpGet]
+        [Authorize]
+        [ResponseType(typeof(RestaurantUser))]
+        [Route("api/GetRestaurantUser/{userId}")]
         public async Task<IHttpActionResult> GetRestaurantUser(string userId)
         {
+            string idpUserId = await GetIdpUser();
+
             User user = await _db.Users.FindAsync(userId);
 
             if (user == null)
@@ -65,6 +67,25 @@ namespace RestaurantWaitTime.Controllers
             }
 
             return Ok(user);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("api/GetCurrentRestaurant")]
+        public async Task<IHttpActionResult> GetCurrentRestaurant()
+        {
+            //string idpId = await GetIdpUser();
+            string idpId = "TWITTER:IQBOSS";
+
+            var restaurantId = _db.RestaurantUsers
+                .Where(a => a.IdpId == idpId)
+                .Select(a => a.RestaurantId).ToList();
+
+            if (restaurantId.Any())
+            {
+                return Ok(new {restaurantId = restaurantId.First()});
+            }
+            return NotFound();
         }
 
         [ResponseType(typeof(void))]

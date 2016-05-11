@@ -98,7 +98,7 @@
 
 
 
-        <Grid x:Name="Profile" Margin="84,214,87,43" Grid.Row="1">
+        <Grid x:Name="Restaurant" Margin="84,214,87,43" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -140,7 +140,7 @@
             <TextBox Grid.Column="8" HorizontalAlignment="Stretch" Text="{Binding Phone, Mode=TwoWay}" FontSize="20" Margin="1,24.333,0.333,2.333" IsReadOnly="True" Grid.Row="1" />
 
             <TextBlock Text="WebSite" Margin="0,36.667,47.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="2" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding website, Mode=TwoWay}" FontSize="20" Margin="0.667,27.667,19.333,79" IsReadOnly="True" Height="54" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+            <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding WebSite, Mode=TwoWay}" FontSize="20" Margin="0.667,27.667,19.333,79" IsReadOnly="True" Height="54" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" />
 
             <TextBlock Text="Email" Margin="0,36.667,54.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="4" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="2" HorizontalAlignment="Right"/>
             <TextBox Grid.Column="5" HorizontalAlignment="Stretch" Text="{Binding Email, Mode=TwoWay}" FontSize="20" Margin="0.333,27.667,19,79" IsReadOnly="True" Height="54" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" />
@@ -155,7 +155,7 @@
             <TextBox Grid.Column="5" HorizontalAlignment="Stretch" Text="{Binding Capacity, Mode=TwoWay}" FontSize="20" Margin="0.333,27,0,79.667" IsReadOnly="True" Height="54" Grid.Row="3" Grid.RowSpan="2" />
 
             <TextBlock Text="Property ID" Margin="0,40,34,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="7" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="3" HorizontalAlignment="Right"/>
-            <TextBox Grid.Column="8" HorizontalAlignment="Stretch" Text="{Binding Property_ID, Mode=TwoWay}" FontSize="20" Margin="0,26,0.333,0" IsReadOnly="True" Height="54" Grid.Row="3" />
+            <TextBox Grid.Column="8" HorizontalAlignment="Stretch" Text="{Binding PropertyID, Mode=TwoWay}" FontSize="20" Margin="0,26,0.333,0" IsReadOnly="True" Height="54" Grid.Row="3" />
 
             <TextBlock Text="Location" Margin="0,38,49.667,0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" FontSize="13.333" Height="20" VerticalAlignment="Top" SelectionChanged="TextBlock_SelectionChanged" Grid.Row="4" HorizontalAlignment="Right"/>
             <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding Location, Mode=TwoWay}" FontSize="20" Margin="0.333,26,0,0.667" IsReadOnly="True" Height="54" Grid.Row="4" />

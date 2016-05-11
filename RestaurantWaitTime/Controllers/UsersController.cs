@@ -19,6 +19,7 @@ namespace RestaurantWaitTime.Controllers
         private RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
         [HttpGet]
+        [Authorize]
         [Route("api/GetAllUsers")]
         public IQueryable GetAllUsers()
         {

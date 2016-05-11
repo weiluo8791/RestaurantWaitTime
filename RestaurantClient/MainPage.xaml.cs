@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Microsoft.Rest;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json.Linq;
 using RestaurantClient.Common;
+using RestaurantClient.Models;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -69,43 +72,39 @@ namespace RestaurantClient
                 // Let the user know something happening
                 progressBar.IsIndeterminate = true;
                 
-                // Make the call to the hello resource asynchronously using GET verb
-                var resultJson = await App.MobileServiceDotNet.InvokeApiAsync("GetAllRestaurantUsers", HttpMethod.Get, null);
+                // Make the call asynchronously using GET verb
+                var resultJson = await App.MobileServiceDotNet.InvokeApiAsync("GetCurrentRestaurant", HttpMethod.Get, null);
 
-//                string id = resultJson.Value<string>("id");
-//                string name = resultJson.Value<string>("name");
-//                string pictureurl = resultJson.Value<string>("pictureUrl");
-//                string gender = resultJson.Value<string>("gender");
-//                int voteBalance = resultJson.Value<int>("voteBalance");
-//                string role = resultJson.Value<string>("role");
-//                string registrationStatus = resultJson.Value<string>("registrationStatus");
+                var restaurantId = resultJson.Value<string>("restaurantId");
 
-//                var myProfile = new Registration(id, name, pictureurl, gender, voteBalance, role, registrationStatus);
-//                Profile.DataContext = myProfile;
+                //new REST API Client  object
+                RestaurantWaitTime clientSdk = new RestaurantWaitTime();
 
-                StatusBorder.Background = new SolidColorBrush(Colors.Green);
-                StatusTextBlock.Text = "Request completed!";
-
-                // Verfiy that a result was returned
-                if (resultJson.HasValues)
+                Task<HttpOperationResponse<Restaurant>> resultTask =
+                    clientSdk.Restaurants.GetRestaurantByRestaurantidWithOperationResponseAsync(restaurantId);
+                resultTask.Wait();
+                if (resultTask.Result.Response.IsSuccessStatusCode)
                 {
-                    // Extract the value from the result
-                    //string messageResult = resultJson.Value<string>("message");
-                    var messageResult = resultJson.ToString();
-                    FeatureGrid.Visibility = Visibility.Collapsed;
-                    Profile.Visibility = Visibility.Visible;
-                    // Set the text block with the result
-                    //OutTextBlock.Text = messageResult;
+                    var myRestaurant = new Restaurant()
+                    {
+                        Name = resultTask.Result.Body.Name,
+                        Address = resultTask.Result.Body.Address,
+                        City = resultTask.Result.Body.City,
+                        State = resultTask.Result.Body.State,
+                        Zip = resultTask.Result.Body.Zip,
+                        Phone = resultTask.Result.Body.Phone,
+                        WebSite = resultTask.Result.Body.WebSite,
+                        Email = resultTask.Result.Body.Email,
+                        Hours = resultTask.Result.Body.Hours,
+                        Cuisine = resultTask.Result.Body.Cuisine,
+                        Capacity = resultTask.Result.Body.Capacity,
+                        PropertyID = resultTask.Result.Body.PropertyID,
+                        Location = resultTask.Result.Body.Location
+                    };
+                    Restaurant.DataContext = myRestaurant;
                 }
-                else
-                {
-                    StatusBorder.Background = new SolidColorBrush(Colors.Orange);
-                    StatusTextBlock.Foreground = new SolidColorBrush(Colors.Black);
-                    //OutTextBlock.Text = "Nothing returned!";
-                }
-
-
             }
+
             catch (MobileServiceInvalidOperationException ex)
             {
                 // Display the exception message for the demo

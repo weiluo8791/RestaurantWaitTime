@@ -108,6 +108,31 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestaurantWaitTime\IRestaurants.cs" />
+    <Compile Include="RestaurantWaitTime\IRestaurantUsers.cs" />
+    <Compile Include="RestaurantWaitTime\IRestaurantWaitTime.cs" />
+    <Compile Include="RestaurantWaitTime\ISubscriptions.cs" />
+    <Compile Include="RestaurantWaitTime\IUsers.cs" />
+    <Compile Include="RestaurantWaitTime\IWaitTimes.cs" />
+    <Compile Include="RestaurantWaitTime\Models\Restaurant.cs" />
+    <Compile Include="RestaurantWaitTime\Models\RestaurantUser.cs" />
+    <Compile Include="RestaurantWaitTime\Models\StringCollection.cs" />
+    <Compile Include="RestaurantWaitTime\Models\Subscription.cs" />
+    <Compile Include="RestaurantWaitTime\Models\SubscriptionCollection.cs" />
+    <Compile Include="RestaurantWaitTime\Models\User.cs" />
+    <Compile Include="RestaurantWaitTime\Models\WaitTime.cs" />
+    <Compile Include="RestaurantWaitTime\Restaurants.cs" />
+    <Compile Include="RestaurantWaitTime\RestaurantsExtensions.cs" />
+    <Compile Include="RestaurantWaitTime\RestaurantUsers.cs" />
+    <Compile Include="RestaurantWaitTime\RestaurantUsersExtensions.cs" />
+    <Compile Include="RestaurantWaitTime\RestaurantWaitTime.cs" />
+    <Compile Include="RestaurantWaitTime\RestaurantWaitTimeExtensions.cs" />
+    <Compile Include="RestaurantWaitTime\Subscriptions.cs" />
+    <Compile Include="RestaurantWaitTime\SubscriptionsExtensions.cs" />
+    <Compile Include="RestaurantWaitTime\Users.cs" />
+    <Compile Include="RestaurantWaitTime\UsersExtensions.cs" />
+    <Compile Include="RestaurantWaitTime\WaitTimes.cs" />
+    <Compile Include="RestaurantWaitTime\WaitTimesExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
