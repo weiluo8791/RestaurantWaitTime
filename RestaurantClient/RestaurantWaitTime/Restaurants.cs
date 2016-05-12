@@ -513,13 +513,8 @@ namespace RestaurantClient
             
             // Construct URL
             string url = "";
-            url = url + "/api/Restaurants";
-            List<string> queryParameters = new List<string>();
-            queryParameters.Add("restaurantId=" + Uri.EscapeDataString(restaurantId));
-            if (queryParameters.Count > 0)
-            {
-                url = url + "?" + string.Join("&", queryParameters);
-            }
+            url = url + "/api/UpdateRestaurant/";
+            url = url + Uri.EscapeDataString(restaurantId);
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
@@ -535,7 +530,7 @@ namespace RestaurantClient
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = new HttpRequestMessage();
-            httpRequest.Method = new HttpMethod("PATCH");
+            httpRequest.Method = HttpMethod.Post;
             httpRequest.RequestUri = new Uri(url);
             
             // Set Headers

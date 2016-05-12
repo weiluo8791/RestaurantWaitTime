@@ -18,7 +18,7 @@ namespace RestaurantClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        Task<HttpOperationResponse<User>> DeleteUserByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<HttpOperationResponse<User>> DeleteRestaurantUserByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         
         /// <param name='cancellationToken'>
         /// Cancellation token.

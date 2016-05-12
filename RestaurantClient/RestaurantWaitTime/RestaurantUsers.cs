@@ -46,7 +46,7 @@ namespace RestaurantClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<User>> DeleteUserByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<HttpOperationResponse<User>> DeleteRestaurantUserByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // Validate
             if (id == null)
@@ -62,7 +62,7 @@ namespace RestaurantClient
                 invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
-                ServiceClientTracing.Enter(invocationId, this, "DeleteUserByIdAsync", tracingParameters);
+                ServiceClientTracing.Enter(invocationId, this, "DeleteRestaurantUserByIdAsync", tracingParameters);
             }
             
             // Construct URL

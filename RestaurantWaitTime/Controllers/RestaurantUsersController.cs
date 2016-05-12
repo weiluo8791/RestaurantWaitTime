@@ -140,7 +140,7 @@ namespace RestaurantWaitTime.Controllers
         [Authorize]
         [HttpDelete]
         [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> DeleteUser(string id)
+        public async Task<IHttpActionResult> DeleteRestaurantUser(string id)
         {
             RestaurantUser restaurantUser = await _db.RestaurantUsers.FindAsync(id);
             if (restaurantUser == null)

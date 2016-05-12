@@ -46,7 +46,7 @@ namespace RestaurantWaitTime.Controllers
 
         // PUT: api/WaitTimes
         [HttpPut]
-        [Authorize]
+        //[Authorize]
         [ResponseType(typeof(WaitTime))]
         public async Task<IHttpActionResult> PostWaitTime(WaitTime item)
         {

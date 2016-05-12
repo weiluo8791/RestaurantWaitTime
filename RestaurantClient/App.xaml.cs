@@ -27,6 +27,7 @@ namespace RestaurantClient
                 WindowsCollectors.Session);
             InitializeComponent();
             Suspending += OnSuspending;
+
         }
 
         // .NET Mobile Service

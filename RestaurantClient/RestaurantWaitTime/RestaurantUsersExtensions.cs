@@ -19,11 +19,11 @@ namespace RestaurantClient
         /// <param name='id'>
         /// Required.
         /// </param>
-        public static User DeleteUserById(this IRestaurantUsers operations, string id)
+        public static User DeleteRestaurantUserById(this IRestaurantUsers operations, string id)
         {
             return Task.Factory.StartNew((object s) => 
             {
-                return ((IRestaurantUsers)s).DeleteUserByIdAsync(id);
+                return ((IRestaurantUsers)s).DeleteRestaurantUserByIdAsync(id);
             }
             , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -37,9 +37,9 @@ namespace RestaurantClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public static async Task<User> DeleteUserByIdAsync(this IRestaurantUsers operations, string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public static async Task<User> DeleteRestaurantUserByIdAsync(this IRestaurantUsers operations, string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Microsoft.Rest.HttpOperationResponse<RestaurantClient.Models.User> result = await operations.DeleteUserByIdWithOperationResponseAsync(id, cancellationToken).ConfigureAwait(false);
+            Microsoft.Rest.HttpOperationResponse<RestaurantClient.Models.User> result = await operations.DeleteRestaurantUserByIdWithOperationResponseAsync(id, cancellationToken).ConfigureAwait(false);
             return result.Body;
         }
         

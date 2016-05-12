@@ -113,7 +113,6 @@ namespace RestaurantWaitTime.Controllers
             return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
         }
 
-        [HttpPost]
         [HttpDelete]
         [ResponseType(typeof(User))]
         public async Task<IHttpActionResult> DeleteUser(string id)

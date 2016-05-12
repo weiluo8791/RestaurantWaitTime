@@ -31,6 +31,17 @@ namespace RestaurantClient.Models
             set { this._id = value; }
         }
         
+        private string _preferLocation;
+        
+        /// <summary>
+        /// Required.
+        /// </summary>
+        public string PreferLocation
+        {
+            get { return this._preferLocation; }
+            set { this._preferLocation = value; }
+        }
+        
         private int? _rating;
         
         /// <summary>
@@ -72,30 +83,6 @@ namespace RestaurantClient.Models
         }
         
         /// <summary>
-        /// Initializes a new instance of the Subscription class with required
-        /// arguments.
-        /// </summary>
-        public Subscription(string id, string userId, string restaurantId)
-            : this()
-        {
-            if (id == null)
-            {
-                throw new ArgumentNullException("id");
-            }
-            if (userId == null)
-            {
-                throw new ArgumentNullException("userId");
-            }
-            if (restaurantId == null)
-            {
-                throw new ArgumentNullException("restaurantId");
-            }
-            this.Id = id;
-            this.UserId = userId;
-            this.RestaurantId = restaurantId;
-        }
-        
-        /// <summary>
         /// Deserialize the object
         /// </summary>
         public virtual void DeserializeJson(JToken inputObject)
@@ -111,6 +98,11 @@ namespace RestaurantClient.Models
                 if (idValue != null && idValue.Type != JTokenType.Null)
                 {
                     this.Id = ((string)idValue);
+                }
+                JToken preferLocationValue = inputObject["preferLocation"];
+                if (preferLocationValue != null && preferLocationValue.Type != JTokenType.Null)
+                {
+                    this.PreferLocation = ((string)preferLocationValue);
                 }
                 JToken ratingValue = inputObject["Rating"];
                 if (ratingValue != null && ratingValue.Type != JTokenType.Null)
@@ -146,6 +138,10 @@ namespace RestaurantClient.Models
             {
                 throw new ArgumentNullException("Id");
             }
+            if (this.PreferLocation == null)
+            {
+                throw new ArgumentNullException("PreferLocation");
+            }
             if (this.RestaurantId == null)
             {
                 throw new ArgumentNullException("RestaurantId");
@@ -161,6 +157,10 @@ namespace RestaurantClient.Models
             if (this.Id != null)
             {
                 outputObject["Id"] = this.Id;
+            }
+            if (this.PreferLocation != null)
+            {
+                outputObject["preferLocation"] = this.PreferLocation;
             }
             if (this.Rating != null)
             {
