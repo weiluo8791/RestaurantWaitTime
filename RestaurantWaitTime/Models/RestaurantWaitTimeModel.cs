@@ -109,7 +109,7 @@ namespace RestaurantWaitTime.Models
         }
     }
 
-    [CustomValidation(typeof(RestaurantUser), "ValidateUser")]
+    [CustomValidation(typeof(RestaurantUser), "ValidateRestaurantUser")]
     public class RestaurantUser
     {
         [Key]
@@ -131,7 +131,7 @@ namespace RestaurantWaitTime.Models
         [Column(Order = 6)]
         public string Email { get; set; }
 
-        public static ValidationResult ValidateUser(RestaurantUser restaurantUser, ValidationContext ctx)
+        public static ValidationResult ValidateRestaurantUser(RestaurantUser restaurantUser, ValidationContext ctx)
         {
             return ValidationResult.Success;
         }

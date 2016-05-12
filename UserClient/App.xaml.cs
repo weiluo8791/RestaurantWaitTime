@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -9,7 +10,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.ApplicationInsights;
 using Microsoft.WindowsAzure.MobileServices;
 
-namespace RestaurantClient
+namespace UserClient
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -31,7 +32,6 @@ namespace RestaurantClient
 
         // .NET Mobile Service
         public static MobileServiceClient MobileServiceDotNet = new MobileServiceClient("https://restaurantwaittime.azurewebsites.net/");
-
         /// <summary>
         /// authenticate as an asynchronous operation.
         /// </summary>
@@ -61,7 +61,6 @@ namespace RestaurantClient
 
             }
         }
-
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -70,9 +69,9 @@ namespace RestaurantClient
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
-//            if (System.Diagnostics.Debugger.IsAttached)
+//            if (Debugger.IsAttached)
 //            {
-//                this.DebugSettings.EnableFrameRateCounter = true;
+//                DebugSettings.EnableFrameRateCounter = true;
 //            }
 #endif
             Frame rootFrame = Window.Current.Content as Frame;

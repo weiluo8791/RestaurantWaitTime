@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace RestaurantClient.Common
+namespace UserClient.Common
 {
     /// <summary>
     /// Enum MobileServiceEndpoints

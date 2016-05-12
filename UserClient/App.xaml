@@ -1,8 +1,8 @@
 ﻿<Application
-    x:Class="RestaurantClient.App"
+    x:Class="UserClient.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:RestaurantClient"
+    xmlns:local="using:UserClient"
     RequestedTheme="Light">
 
 </Application>

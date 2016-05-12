@@ -1,34 +1,37 @@
 ﻿using System;
+using Windows.UI;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
-namespace RestaurantClient.Common
+namespace UserClient.Common
 {
-    class LoggedInLabelConverter : IValueConverter
+    public class LoginStatusConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is bool)
             {
-                bool loggedIn = (bool)value;
+                bool loggedIn = (bool) value;
                 if (loggedIn)
                 {
-                    return "Logout";
+                    return new SolidColorBrush(Colors.Green);
                 }
                 else
                 {
-                    return "Login";
+                    return new SolidColorBrush(Colors.DarkRed);
                 }
             }
 
-            return "Login";
+            return new SolidColorBrush(Colors.DarkRed);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (value is string)
+            if (value is SolidColorBrush)
             {
-                string loggedIn = (string)value;
-                return loggedIn == "Logout";
+                SolidColorBrush currentColor = (SolidColorBrush) value;
+
+                return (currentColor.Color == Colors.Green) ;
             }
 
             return false;

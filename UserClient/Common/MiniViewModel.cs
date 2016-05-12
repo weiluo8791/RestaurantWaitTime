@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using Microsoft.WindowsAzure.MobileServices;
-using RestaurantClient.Common;
 
-namespace RestaurantClient.Common
+namespace UserClient.Common
 {
     public class MiniViewModel : INotifyPropertyChanged
     {
