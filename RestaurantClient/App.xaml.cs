@@ -31,7 +31,7 @@ namespace RestaurantClient
 
         // .NET Mobile Service
         public static MobileServiceClient MobileServiceDotNet = new MobileServiceClient("https://restaurantwaittime.azurewebsites.net/");
-
+        public string CurrentRestaurantName = null;
         /// <summary>
         /// authenticate as an asynchronous operation.
         /// </summary>

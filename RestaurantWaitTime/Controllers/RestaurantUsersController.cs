@@ -19,21 +19,6 @@ namespace RestaurantWaitTime.Controllers
     {
         private readonly RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
-//        [HttpGet]
-//        [Route("api/GetAllRestaurantUsers")]
-//        public IQueryable GetAllRestaurantUsers()
-//        {
-//            return _db.RestaurantUsers
-//                .Select(r => new
-//                {
-//                    r.UserId,
-//                    r.IdpId,
-//                    r.Name,
-//                    r.Type,
-//                    r.Email
-//                });
-//        }
-
         [HttpGet]
         [Authorize]
         [Route("api/GetAllRestaurantUsers")]
@@ -88,8 +73,10 @@ namespace RestaurantWaitTime.Controllers
             return NotFound();
         }
 
-        [ResponseType(typeof(void))]
+
         [HttpPatch]
+        [Authorize]
+        [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutUser(string userId, Delta<RestaurantUser> patch)
         {
 
@@ -117,8 +104,9 @@ namespace RestaurantWaitTime.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        [ResponseType(typeof(RestaurantUser))]
+        [Authorize]
         [HttpPost]
+        [ResponseType(typeof(RestaurantUser))]
         public async Task<IHttpActionResult> PostUser(RestaurantUser restaurantUser)
         {
             restaurantUser.UserId = Guid.NewGuid().ToString();
@@ -149,8 +137,9 @@ namespace RestaurantWaitTime.Controllers
             return CreatedAtRoute("DefaultApi", new { id = restaurantUser.UserId }, restaurantUser);
         }
 
-        [ResponseType(typeof(User))]
+        [Authorize]
         [HttpDelete]
+        [ResponseType(typeof(User))]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
             RestaurantUser restaurantUser = await _db.RestaurantUsers.FindAsync(id);

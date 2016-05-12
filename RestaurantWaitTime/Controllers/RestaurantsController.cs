@@ -41,9 +41,11 @@ namespace RestaurantWaitTime.Controllers
             return Ok(result);
         }
 
-        // PUT: api/Restaurants/5
+        // POST: api/Restaurants/5
+        [HttpPost]
+        [Authorize]
         [ResponseType(typeof(void))]
-        [HttpPatch]
+        [Route("api/UpdateRestaurant/{restaurantId}")]
         public async Task<IHttpActionResult> UpdateRestaurant(string restaurantId, Delta<Restaurant> patch)
         {
 
@@ -72,8 +74,9 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // POST: api/Restaurants
-        [ResponseType(typeof(Restaurant))]
         [HttpPost]
+        [Authorize]
+        [ResponseType(typeof(Restaurant))]
         public async Task<IHttpActionResult> PostRestaurant(Restaurant item)
         {
             item.RestaurantId = Guid.NewGuid().ToString();
@@ -103,20 +106,11 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // DELETE: api/Restaurants/5
-        [ResponseType(typeof(Restaurant))]
+        [Authorize]
         [HttpDelete]
+        [ResponseType(typeof(Restaurant))]
         public async Task<IHttpActionResult> DeleteRestaurant(string restaurantId)
         {
-//            var id = await _db.Restaurants
-//                .Where(a => a.RestaurantId == restaurantId)
-//                .Select(a => a.Id)
-//                .FirstAsync();
-//
-//            if (id == null)
-//            {
-//                return NotFound();
-//            }
-
             Restaurant restaurant = await _db.Restaurants.FindAsync(restaurantId);
 
             if (restaurant == null)

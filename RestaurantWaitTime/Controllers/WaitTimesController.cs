@@ -15,10 +15,9 @@ namespace RestaurantWaitTime.Controllers
     {
         private readonly RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
-
+        [HttpGet]
         [ResponseType(typeof(WaitTime))]
         [Route("api/GetLatestRestaurantWaitTime/{restaurantId}")]
-        [HttpGet]
         public async Task<IHttpActionResult> GetLatestRestaurantWaitTime(string restaurantId)
         {
             var selectByGroup = await _db.WaitTimes
@@ -31,9 +30,9 @@ namespace RestaurantWaitTime.Controllers
         }
 
 
+        [HttpGet]
         [ResponseType(typeof(WaitTime))]
         [Route("api/GetLatestRestaurantWaitTimeByGroup/{restaurantId}/{group}")]
-        [HttpGet]
         public async Task<IHttpActionResult> GetLatestRestaurantWaitTimeByGroup(string restaurantId, int group)
         {
             var result = await _db.WaitTimes
@@ -46,8 +45,9 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // PUT: api/WaitTimes
-        [ResponseType(typeof(WaitTime))]
         [HttpPut]
+        [Authorize]
+        [ResponseType(typeof(WaitTime))]
         public async Task<IHttpActionResult> PostWaitTime(WaitTime item)
         {
 
@@ -78,8 +78,9 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // DELETE: api/WaitTimes/5
-        [ResponseType(typeof(WaitTime))]
+        [Authorize]
         [HttpDelete]
+        [ResponseType(typeof(WaitTime))]
         public async Task<IHttpActionResult> DeleteCurrentWaitTime(string restaurantId, int group)
         {
 

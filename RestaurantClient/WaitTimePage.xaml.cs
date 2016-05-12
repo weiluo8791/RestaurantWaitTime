@@ -252,5 +252,13 @@ namespace RestaurantClient
 
 
         }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter != null)
+            {
+                (App.Current as App).CurrentRestaurantName = e.Parameter.ToString();
+                WaitTimePageTitle.DataContext = (App.Current as App).CurrentRestaurantName;
+            }
+        }
     }
 }
