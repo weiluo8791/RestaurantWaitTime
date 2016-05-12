@@ -23,9 +23,49 @@ namespace RestaurantWaitTime.Controllers
             return _db.Restaurants
                 .Select(r => new
                 {
-                    r.RestaurantId,r.Name,r.Address,r.City,r.State,
-                    r.Zip, r.Phone,r.WebSite,r.Email, r.Hours, r.Cuisine, r.Capacity
-                });
+                    r.RestaurantId,
+                    r.Name,
+                    r.Address,
+                    r.City,
+                    r.State,
+                    r.Zip,
+                    r.Phone,
+                    r.WebSite,
+                    r.Email,
+                    r.Hours,
+                    r.Cuisine,
+                    r.Capacity
+                })
+                //.OrderBy(c => Guid.NewGuid())
+                //.Take(150)
+                .OrderBy(c => c.Name);
+        }
+
+
+        // GET: api/Restaurants/zip
+        [HttpGet]
+        [Route("api/GetRestaurantsByZip/{zip}")]
+        public IQueryable GetRestaurantsByZip(string zip)
+        {
+            return _db.Restaurants
+                .Select(r => new
+                {
+                    r.RestaurantId,
+                    r.Name,
+                    r.Address,
+                    r.City,
+                    r.State,
+                    r.Zip,
+                    r.Phone,
+                    r.WebSite,
+                    r.Email,
+                    r.Hours,
+                    r.Cuisine,
+                    r.Capacity
+                })
+                .Where(c => c.Zip == zip)
+                .OrderBy(c => c.Name)
+                .Take(150);
         }
 
         // GET: api/Restaurants/5

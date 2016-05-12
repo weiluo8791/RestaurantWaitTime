@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Rest;
@@ -32,7 +22,7 @@ namespace RestaurantClient
     {
         public WaitTimePage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -75,10 +65,6 @@ namespace RestaurantClient
                     };
                     try
                     {
-
-
-
-
                         Task<HttpOperationResponse<WaitTime>> resultTask =
                             clientSdk.WaitTimes.PostWaitTimeByItemWithOperationResponseAsync(waittime);
                         resultTask.Wait();
@@ -232,9 +218,6 @@ namespace RestaurantClient
                 }
 
             }
-
-
-
             catch (MobileServiceInvalidOperationException ex)
             {
                 // Display the exception message for the demo

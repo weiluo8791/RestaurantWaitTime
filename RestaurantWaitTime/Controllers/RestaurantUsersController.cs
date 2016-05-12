@@ -36,22 +36,42 @@ namespace RestaurantWaitTime.Controllers
                 }).ToList());
         }
 
+                [HttpGet]
+                [Authorize]
+                [ResponseType(typeof(RestaurantUser))]
+                [Route("api/GetRestaurantUserById/{userId}")]
+                public async Task<IHttpActionResult> GetRestaurantUserById(string userId)
+                {
+                    string idpUserId = await GetIdpUser();
+        
+                    User user = await _db.Users.FindAsync(userId);
+        
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+        
+                    return Ok(user);
+                }
+
         [HttpGet]
         [Authorize]
         [ResponseType(typeof(RestaurantUser))]
-        [Route("api/GetRestaurantUser/{userId}")]
-        public async Task<IHttpActionResult> GetRestaurantUser(string userId)
+        [Route("api/GetCurrentRestaurantUser/")]
+        public async Task<IHttpActionResult> GetCurrentRestaurantUser()
         {
             string idpUserId = await GetIdpUser();
 
-            User user = await _db.Users.FindAsync(userId);
+            var restaurantUser = await _db.RestaurantUsers                
+                .Where(c => c.IdpId == idpUserId)
+                .FirstAsync();
 
-            if (user == null)
+            if (restaurantUser == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(restaurantUser);
         }
 
         [HttpGet]

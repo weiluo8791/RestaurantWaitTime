@@ -255,6 +255,9 @@ namespace RestaurantClient
                 LoginLogoutButton.Background = new SolidColorBrush(Colors.Green);
                 TwitterRadioButton.IsEnabled = false;
                 GoogleRadioButton.IsEnabled = false;
+                //load restaurant after log in
+                RestaurantDetail_load();
+
             }
             else
             {
@@ -264,6 +267,70 @@ namespace RestaurantClient
                 LoginLogoutButton.Content = "Login";
                 TwitterRadioButton.IsEnabled = true;
                 GoogleRadioButton.IsEnabled = true;
+            }
+        }
+
+        private async void RestaurantDetail_load()
+        {
+            try
+            {
+                StatusTextBlock.Text = "GET Request Made, waiting for response...";
+                StatusTextBlock.Foreground = new SolidColorBrush(Colors.White);
+                StatusBorder.Background = new SolidColorBrush(Colors.Blue);
+                // Let the user know something happening
+                progressBar.IsIndeterminate = true;
+
+                // get restaurantId by making the call asynchronously using GET verb
+                var resultJson = await App.MobileServiceDotNet.InvokeApiAsync("GetCurrentRestaurant", HttpMethod.Get, null);
+                string restaurantId = resultJson.Value<string>("restaurantId");
+
+                // get restaurant data by making the call to the SDK
+                Task<HttpOperationResponse<Restaurant>> resultTask =
+                    _clientSdk.Restaurants.GetRestaurantByRestaurantidWithOperationResponseAsync(restaurantId);
+                resultTask.Wait();
+                if (resultTask.Result.Response.IsSuccessStatusCode)
+                {
+
+                    string name = resultTask.Result.Body.Name;
+                    string address = resultTask.Result.Body.Address;
+                    string city = resultTask.Result.Body.City;
+                    string state = resultTask.Result.Body.State;
+                    string zip = resultTask.Result.Body.Zip;
+                    string phone = resultTask.Result.Body.Phone;
+                    string website = resultTask.Result.Body.WebSite;
+                    string email = resultTask.Result.Body.Email;
+                    string hours = resultTask.Result.Body.Hours;
+                    string cuisine = resultTask.Result.Body.Cuisine;
+                    string capacity = resultTask.Result.Body.Capacity;
+                    string propertyid = resultTask.Result.Body.PropertyID;
+                    string location = resultTask.Result.Body.Location;
+                    _currentRestaurantName = resultTask.Result.Body.Name;
+
+                    var myRestaurant = new MyRestaurant(restaurantId, name, address, city, state, zip, phone, website,
+                        email, hours, cuisine, capacity, propertyid, location);
+                    Restaurant.DataContext = myRestaurant;
+
+                    StatusBorder.Background = new SolidColorBrush(Colors.Green);
+                    StatusTextBlock.Text = "Request completed!";
+                }
+            }
+
+            catch (MobileServiceInvalidOperationException ex)
+            {
+                // Display the exception message for the demo
+
+                string responseMsg = await ex.Response.Content.ReadAsStringAsync();
+
+                JObject o = JObject.Parse(responseMsg);
+                string messageResult = o.Value<string>("message");
+                StatusTextBlock.Text = ex.Message;
+                StatusBorder.Background = new SolidColorBrush(Colors.Red);
+
+            }
+            finally
+            {
+                // Let the user know something happening
+                progressBar.IsIndeterminate = false;
             }
         }
 
