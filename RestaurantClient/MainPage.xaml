@@ -11,14 +11,13 @@
 
     <Page.Resources>
         <!--  TODO: Delete this line if the key AppName is declared in App.xaml  -->
-        <x:String x:Key="AppName">User Voice Vote Application UVVA</x:String>
-        <x:String x:Key="AppSubTitle">CSCI-E64 HW03 by Wei Qi Luo</x:String>
+        <x:String x:Key="AppName">Restaurant Wait Time Client Application</x:String>
+        <x:String x:Key="AppSubTitle">CSCI-E64 Final by Wei Qi Luo</x:String>
         <common:ProviderTypesEnumConverter x:Key="ProviderTypesEnumConverter" />
         <common:LoginStatusConverter x:Key="LoginStatusConverter" />
         <common:LoggedInLabelConverter x:Key="LoggedInLabelConverter">
         </common:LoggedInLabelConverter>
     </Page.Resources>
-
     <!--
         This grid acts as a root panel for the page that defines two rows:
         * Row 0 contains the back button and page title
@@ -214,6 +213,7 @@
 
         <StackPanel Grid.Row="1"
                     Orientation="Horizontal" Margin="0,27,0,-1" Height="1000" Width="1440">
+            
             <RadioButton Margin="219,24,0,0"
                          HorizontalAlignment="Left"
                          Name="TwitterRadioButton"

@@ -192,6 +192,10 @@
     <Compile Include="Migrations\201605090547384_Initial.Designer.cs">
       <DependentUpon>201605090547384_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605110527154_Initial1.cs" />
+    <Compile Include="Migrations\201605110527154_Initial1.Designer.cs">
+      <DependentUpon>201605110527154_Initial1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RestaurantWaitTimeContext.cs" />
     <Compile Include="Models\RestaurantWaitTimeModel.cs" />
@@ -213,6 +217,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605090547384_Initial.resx">
       <DependentUpon>201605090547384_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605110527154_Initial1.resx">
+      <DependentUpon>201605110527154_Initial1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

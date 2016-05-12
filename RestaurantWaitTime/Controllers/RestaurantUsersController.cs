@@ -74,8 +74,8 @@ namespace RestaurantWaitTime.Controllers
         [Route("api/GetCurrentRestaurant")]
         public async Task<IHttpActionResult> GetCurrentRestaurant()
         {
-            //string idpId = await GetIdpUser();
-            string idpId = "TWITTER:IQBOSS";
+            string idpId = await GetIdpUser();
+            //string idpId = "TWITTER:IQBOSS";
 
             var restaurantId = _db.RestaurantUsers
                 .Where(a => a.IdpId == idpId)

@@ -133,6 +133,9 @@
     <Compile Include="RestaurantWaitTime\UsersExtensions.cs" />
     <Compile Include="RestaurantWaitTime\WaitTimes.cs" />
     <Compile Include="RestaurantWaitTime\WaitTimesExtensions.cs" />
+    <Compile Include="WaitTimePage.xaml.cs">
+      <DependentUpon>WaitTimePage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -158,6 +161,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WaitTimePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

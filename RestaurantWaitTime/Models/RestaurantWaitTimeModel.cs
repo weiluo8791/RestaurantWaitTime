@@ -98,6 +98,8 @@ namespace RestaurantWaitTime.Models
         public string UserId { get; set; }
         [Required]
         public string RestaurantId { get; set; }
+        [Required]
+        public string preferLocation { get; set; }
         public int Rating { get; set; }
         public string FeedBack { get; set; }
 

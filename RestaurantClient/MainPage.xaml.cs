@@ -71,14 +71,15 @@ namespace RestaurantClient
                 StatusBorder.Background = new SolidColorBrush(Colors.Blue);
                 // Let the user know something happening
                 progressBar.IsIndeterminate = true;
-                
-                // Make the call asynchronously using GET verb
-                var resultJson = await App.MobileServiceDotNet.InvokeApiAsync("GetCurrentRestaurant", HttpMethod.Get, null);
 
-                var restaurantId = resultJson.Value<string>("restaurantId");
 
                 //new REST API Client  object
                 RestaurantWaitTime clientSdk = new RestaurantWaitTime();
+
+                // Make the call asynchronously using GET verb
+                var resultJson = await App.MobileServiceDotNet.InvokeApiAsync("GetCurrentRestaurant", HttpMethod.Get, null);
+                string restaurantId = resultJson.Value<string>("restaurantId");
+
 
                 Task<HttpOperationResponse<Restaurant>> resultTask =
                     clientSdk.Restaurants.GetRestaurantByRestaurantidWithOperationResponseAsync(restaurantId);
@@ -125,14 +126,19 @@ namespace RestaurantClient
             }
         }
 
-        private void WaitTime_Click(object sender, RoutedEventArgs e)
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Switch page to temperature lookup
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WaitTime_Click(object sender, RoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(WaitTimePage), null);
         }
     }
 }
