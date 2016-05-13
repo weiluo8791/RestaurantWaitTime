@@ -42,6 +42,11 @@ namespace UserClient
         /// </param>
         Task<HttpOperationResponse<IList<string>>> GetRestaurantsByZipByZipWithOperationResponseAsync(string zip, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<Restaurant>> GetSubscribedRestaurantsWithOperationResponseAsync(CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        
         /// <param name='item'>
         /// Required.
         /// </param>

@@ -20,6 +20,10 @@ namespace RestaurantWaitTime.Controllers
         private readonly RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
         // GET: api/Restaurants
+        /// <summary>
+        /// Get All Restaurants
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/GetAllRestaurants")]
         public IQueryable GetAllRestaurants()
@@ -47,6 +51,11 @@ namespace RestaurantWaitTime.Controllers
 
 
         // GET: api/Restaurants/zip
+        /// <summary>
+        /// Get Restaurants by zip (not inuse)
+        /// </summary>
+        /// <param name="zip"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/GetRestaurantsByZip/{zip}")]
         public IQueryable GetRestaurantsByZip(string zip)
@@ -73,6 +82,11 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // GET: api/Restaurants/5
+        /// <summary>
+        /// Get Restaurant by id
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <returns></returns>
         [ResponseType(typeof(Restaurant))]
         [Route("api/GetRestaurant/{restaurantId}")]
         [HttpGet]
@@ -86,6 +100,10 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // GET: api/Restaurants/5
+        /// <summary>
+        /// Get Subscribed Restaurant from User and Subscription table
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [ResponseType(typeof(Restaurant))]
@@ -93,7 +111,6 @@ namespace RestaurantWaitTime.Controllers
         public async Task<IHttpActionResult> GetSubscribedRestaurants()
         {
             string idpId = await GetIdpUser();
-            //string idpId = "TWITTER:COREISCOOL";
 
             var userId = await _db.Users
                 .Where(a => a.IdpId == idpId)
@@ -124,6 +141,12 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // POST: api/Restaurants/5
+        /// <summary>
+        /// Update Restaurant information
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <param name="patch"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [ResponseType(typeof(void))]
@@ -156,6 +179,11 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // POST: api/Restaurants
+        /// <summary>
+        /// Post a new Restaurant
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [ResponseType(typeof(Restaurant))]
@@ -188,6 +216,11 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // DELETE: api/Restaurants/5
+        /// <summary>
+        /// Delete a Restaurant by id
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpDelete]
         [ResponseType(typeof(Restaurant))]
@@ -220,6 +253,10 @@ namespace RestaurantWaitTime.Controllers
             return _db.Restaurants.Count(e => e.RestaurantId == id) > 0;
         }
 
+        /// <summary>
+        /// Use to get idpId after log in
+        /// </summary>
+        /// <returns></returns>
         private async Task<string> GetIdpUser()
         {
             string userName = null;

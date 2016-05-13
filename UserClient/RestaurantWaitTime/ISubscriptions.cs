@@ -21,11 +21,6 @@ namespace UserClient
         /// </param>
         Task<HttpOperationResponse<Subscription>> DeleteSubscriptionByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<string>> GetSubscriptedRestaurantWithOperationResponseAsync(CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        
         /// <param name='id'>
         /// Required.
         /// </param>

@@ -101,6 +101,60 @@ namespace RestaurantClient
         /// <param name='operations'>
         /// Reference to the RestaurantClient.IRestaurants.
         /// </param>
+        /// <param name='zip'>
+        /// Required.
+        /// </param>
+        public static IList<string> GetRestaurantsByZipByZip(this IRestaurants operations, string zip)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IRestaurants)s).GetRestaurantsByZipByZipAsync(zip);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <param name='operations'>
+        /// Reference to the RestaurantClient.IRestaurants.
+        /// </param>
+        /// <param name='zip'>
+        /// Required.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        public static async Task<IList<string>> GetRestaurantsByZipByZipAsync(this IRestaurants operations, string zip, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Microsoft.Rest.HttpOperationResponse<System.Collections.Generic.IList<string>> result = await operations.GetRestaurantsByZipByZipWithOperationResponseAsync(zip, cancellationToken).ConfigureAwait(false);
+            return result.Body;
+        }
+        
+        /// <param name='operations'>
+        /// Reference to the RestaurantClient.IRestaurants.
+        /// </param>
+        public static Restaurant GetSubscribedRestaurants(this IRestaurants operations)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IRestaurants)s).GetSubscribedRestaurantsAsync();
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <param name='operations'>
+        /// Reference to the RestaurantClient.IRestaurants.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        public static async Task<Restaurant> GetSubscribedRestaurantsAsync(this IRestaurants operations, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Microsoft.Rest.HttpOperationResponse<RestaurantClient.Models.Restaurant> result = await operations.GetSubscribedRestaurantsWithOperationResponseAsync(cancellationToken).ConfigureAwait(false);
+            return result.Body;
+        }
+        
+        /// <param name='operations'>
+        /// Reference to the RestaurantClient.IRestaurants.
+        /// </param>
         /// <param name='item'>
         /// Required.
         /// </param>

@@ -50,11 +50,11 @@ namespace RestaurantClient
         /// <param name='id'>
         /// Required.
         /// </param>
-        public static Subscription GetSubscriptionById(this ISubscriptions operations, string id)
+        public static Subscription GetSubscriptionByIdById(this ISubscriptions operations, string id)
         {
             return Task.Factory.StartNew((object s) => 
             {
-                return ((ISubscriptions)s).GetSubscriptionByIdAsync(id);
+                return ((ISubscriptions)s).GetSubscriptionByIdByIdAsync(id);
             }
             , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -68,9 +68,9 @@ namespace RestaurantClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public static async Task<Subscription> GetSubscriptionByIdAsync(this ISubscriptions operations, string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public static async Task<Subscription> GetSubscriptionByIdByIdAsync(this ISubscriptions operations, string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Microsoft.Rest.HttpOperationResponse<RestaurantClient.Models.Subscription> result = await operations.GetSubscriptionByIdWithOperationResponseAsync(id, cancellationToken).ConfigureAwait(false);
+            Microsoft.Rest.HttpOperationResponse<RestaurantClient.Models.Subscription> result = await operations.GetSubscriptionByIdByIdWithOperationResponseAsync(id, cancellationToken).ConfigureAwait(false);
             return result.Body;
         }
         
@@ -134,14 +134,14 @@ namespace RestaurantClient
         /// <param name='id'>
         /// Required.
         /// </param>
-        /// <param name='subscription'>
+        /// <param name='patch'>
         /// Required.
         /// </param>
-        public static object PutSubscriptionByIdAndSubscription(this ISubscriptions operations, string id, Subscription subscription)
+        public static object PutSubscriptionByIdAndPatch(this ISubscriptions operations, string id, string patch)
         {
             return Task.Factory.StartNew((object s) => 
             {
-                return ((ISubscriptions)s).PutSubscriptionByIdAndSubscriptionAsync(id, subscription);
+                return ((ISubscriptions)s).PutSubscriptionByIdAndPatchAsync(id, patch);
             }
             , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -152,15 +152,15 @@ namespace RestaurantClient
         /// <param name='id'>
         /// Required.
         /// </param>
-        /// <param name='subscription'>
+        /// <param name='patch'>
         /// Required.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public static async Task<object> PutSubscriptionByIdAndSubscriptionAsync(this ISubscriptions operations, string id, Subscription subscription, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public static async Task<object> PutSubscriptionByIdAndPatchAsync(this ISubscriptions operations, string id, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Microsoft.Rest.HttpOperationResponse<object> result = await operations.PutSubscriptionByIdAndSubscriptionWithOperationResponseAsync(id, subscription, cancellationToken).ConfigureAwait(false);
+            Microsoft.Rest.HttpOperationResponse<object> result = await operations.PutSubscriptionByIdAndPatchWithOperationResponseAsync(id, patch, cancellationToken).ConfigureAwait(false);
             return result.Body;
         }
     }

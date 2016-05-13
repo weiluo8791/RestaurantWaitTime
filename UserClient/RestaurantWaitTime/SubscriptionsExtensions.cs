@@ -47,30 +47,6 @@ namespace UserClient
         /// <param name='operations'>
         /// Reference to the UserClient.ISubscriptions.
         /// </param>
-        public static string GetSubscriptedRestaurant(this ISubscriptions operations)
-        {
-            return Task.Factory.StartNew((object s) => 
-            {
-                return ((ISubscriptions)s).GetSubscriptedRestaurantAsync();
-            }
-            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-        }
-        
-        /// <param name='operations'>
-        /// Reference to the UserClient.ISubscriptions.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        public static async Task<string> GetSubscriptedRestaurantAsync(this ISubscriptions operations, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            Microsoft.Rest.HttpOperationResponse<string> result = await operations.GetSubscriptedRestaurantWithOperationResponseAsync(cancellationToken).ConfigureAwait(false);
-            return result.Body;
-        }
-        
-        /// <param name='operations'>
-        /// Reference to the UserClient.ISubscriptions.
-        /// </param>
         /// <param name='id'>
         /// Required.
         /// </param>

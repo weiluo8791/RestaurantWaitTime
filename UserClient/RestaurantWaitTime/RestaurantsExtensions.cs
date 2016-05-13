@@ -131,6 +131,30 @@ namespace UserClient
         /// <param name='operations'>
         /// Reference to the UserClient.IRestaurants.
         /// </param>
+        public static Restaurant GetSubscribedRestaurants(this IRestaurants operations)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IRestaurants)s).GetSubscribedRestaurantsAsync();
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <param name='operations'>
+        /// Reference to the UserClient.IRestaurants.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        public static async Task<Restaurant> GetSubscribedRestaurantsAsync(this IRestaurants operations, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Microsoft.Rest.HttpOperationResponse<UserClient.Models.Restaurant> result = await operations.GetSubscribedRestaurantsWithOperationResponseAsync(cancellationToken).ConfigureAwait(false);
+            return result.Body;
+        }
+        
+        /// <param name='operations'>
+        /// Reference to the UserClient.IRestaurants.
+        /// </param>
         /// <param name='item'>
         /// Required.
         /// </param>

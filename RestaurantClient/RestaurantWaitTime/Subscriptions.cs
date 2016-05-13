@@ -155,7 +155,7 @@ namespace RestaurantClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<Subscription>> GetSubscriptionByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<HttpOperationResponse<Subscription>> GetSubscriptionByIdByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // Validate
             if (id == null)
@@ -171,12 +171,12 @@ namespace RestaurantClient
                 invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
-                ServiceClientTracing.Enter(invocationId, this, "GetSubscriptionByIdAsync", tracingParameters);
+                ServiceClientTracing.Enter(invocationId, this, "GetSubscriptionByIdByIdAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
-            url = url + "/api/Subscriptions/";
+            url = url + "/api/GetSubscriptionById/";
             url = url + Uri.EscapeDataString(id);
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
             // Trim '/' character from the end of baseUrl and beginning of url.
@@ -476,22 +476,22 @@ namespace RestaurantClient
         /// <param name='id'>
         /// Required.
         /// </param>
-        /// <param name='subscription'>
+        /// <param name='patch'>
         /// Required.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> PutSubscriptionByIdAndSubscriptionWithOperationResponseAsync(string id, Subscription subscription, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<HttpOperationResponse<object>> PutSubscriptionByIdAndPatchWithOperationResponseAsync(string id, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // Validate
             if (id == null)
             {
                 throw new ArgumentNullException("id");
             }
-            if (subscription == null)
+            if (patch == null)
             {
-                throw new ArgumentNullException("subscription");
+                throw new ArgumentNullException("patch");
             }
             
             // Tracing
@@ -502,8 +502,8 @@ namespace RestaurantClient
                 invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
-                tracingParameters.Add("subscription", subscription);
-                ServiceClientTracing.Enter(invocationId, this, "PutSubscriptionByIdAndSubscriptionAsync", tracingParameters);
+                tracingParameters.Add("patch", patch);
+                ServiceClientTracing.Enter(invocationId, this, "PutSubscriptionByIdAndPatchAsync", tracingParameters);
             }
             
             // Construct URL
@@ -525,7 +525,7 @@ namespace RestaurantClient
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = new HttpRequestMessage();
-            httpRequest.Method = HttpMethod.Put;
+            httpRequest.Method = new HttpMethod("PATCH");
             httpRequest.RequestUri = new Uri(url);
             
             // Set Headers
@@ -539,7 +539,7 @@ namespace RestaurantClient
             
             // Serialize Request
             string requestContent = null;
-            JToken requestDoc = subscription.SerializeJson(null);
+            JToken requestDoc = new JValue(patch);
             requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
             httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
             httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");

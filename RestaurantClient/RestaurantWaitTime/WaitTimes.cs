@@ -459,7 +459,7 @@ namespace RestaurantClient
             HttpStatusCode statusCode = httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-            if (statusCode != HttpStatusCode.Created)
+            if (statusCode != HttpStatusCode.OK)
             {
                 HttpOperationException<object> ex = new HttpOperationException<object>();
                 ex.Request = httpRequest;
@@ -478,7 +478,7 @@ namespace RestaurantClient
             result.Response = httpResponse;
             
             // Deserialize Response
-            if (statusCode == HttpStatusCode.Created)
+            if (statusCode == HttpStatusCode.OK)
             {
                 WaitTime resultModel = new WaitTime();
                 JToken responseDoc = null;

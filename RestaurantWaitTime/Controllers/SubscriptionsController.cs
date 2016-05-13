@@ -20,12 +20,21 @@ namespace RestaurantWaitTime.Controllers
         private RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
         // GET: api/Subscriptions
+        /// <summary>
+        /// Get All Subscriptions
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Subscription> GetSubscriptions()
         {
             return _db.Subscriptions;
         }
 
         // GET: api/Subscriptions/5
+        /// <summary>
+        /// Get Subscription by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         [ResponseType(typeof(Subscription))]
@@ -42,6 +51,12 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // PUT: api/Subscriptions/5
+        /// <summary>
+        /// Update a Subscription
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="patch"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPatch]
         [ResponseType(typeof(void))]
@@ -72,6 +87,11 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // POST: api/Subscriptions
+        /// <summary>
+        /// Post a new Subscription
+        /// </summary>
+        /// <param name="subscription"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [ResponseType(typeof(Subscription))]
@@ -106,6 +126,11 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // DELETE: api/Subscriptions/5
+        /// <summary>
+        /// Delete a Subscription by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpDelete]
         [ResponseType(typeof(Subscription))]

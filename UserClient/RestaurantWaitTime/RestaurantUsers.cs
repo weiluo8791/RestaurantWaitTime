@@ -558,7 +558,7 @@ namespace UserClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<RestaurantUser>> PostUserByRestaurantuserWithOperationResponseAsync(RestaurantUser restaurantUser, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<HttpOperationResponse<RestaurantUser>> PostRestaurantUserByRestaurantuserWithOperationResponseAsync(RestaurantUser restaurantUser, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // Validate
             if (restaurantUser == null)
@@ -574,7 +574,7 @@ namespace UserClient
                 invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("restaurantUser", restaurantUser);
-                ServiceClientTracing.Enter(invocationId, this, "PostUserByRestaurantuserAsync", tracingParameters);
+                ServiceClientTracing.Enter(invocationId, this, "PostRestaurantUserByRestaurantuserAsync", tracingParameters);
             }
             
             // Construct URL
@@ -678,7 +678,7 @@ namespace UserClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> PutUserByUseridAndPatchWithOperationResponseAsync(string userId, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<HttpOperationResponse<object>> PutRestaurantUserByUseridAndPatchWithOperationResponseAsync(string userId, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // Validate
             if (userId == null)
@@ -699,7 +699,7 @@ namespace UserClient
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("userId", userId);
                 tracingParameters.Add("patch", patch);
-                ServiceClientTracing.Enter(invocationId, this, "PutUserByUseridAndPatchAsync", tracingParameters);
+                ServiceClientTracing.Enter(invocationId, this, "PutRestaurantUserByUseridAndPatchAsync", tracingParameters);
             }
             
             // Construct URL

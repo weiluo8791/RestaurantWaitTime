@@ -151,11 +151,11 @@ namespace UserClient
         /// <param name='restaurantUser'>
         /// Required.
         /// </param>
-        public static RestaurantUser PostUserByRestaurantuser(this IRestaurantUsers operations, RestaurantUser restaurantUser)
+        public static RestaurantUser PostRestaurantUserByRestaurantuser(this IRestaurantUsers operations, RestaurantUser restaurantUser)
         {
             return Task.Factory.StartNew((object s) => 
             {
-                return ((IRestaurantUsers)s).PostUserByRestaurantuserAsync(restaurantUser);
+                return ((IRestaurantUsers)s).PostRestaurantUserByRestaurantuserAsync(restaurantUser);
             }
             , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -169,9 +169,9 @@ namespace UserClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public static async Task<RestaurantUser> PostUserByRestaurantuserAsync(this IRestaurantUsers operations, RestaurantUser restaurantUser, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public static async Task<RestaurantUser> PostRestaurantUserByRestaurantuserAsync(this IRestaurantUsers operations, RestaurantUser restaurantUser, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Microsoft.Rest.HttpOperationResponse<UserClient.Models.RestaurantUser> result = await operations.PostUserByRestaurantuserWithOperationResponseAsync(restaurantUser, cancellationToken).ConfigureAwait(false);
+            Microsoft.Rest.HttpOperationResponse<UserClient.Models.RestaurantUser> result = await operations.PostRestaurantUserByRestaurantuserWithOperationResponseAsync(restaurantUser, cancellationToken).ConfigureAwait(false);
             return result.Body;
         }
         
@@ -184,11 +184,11 @@ namespace UserClient
         /// <param name='patch'>
         /// Required.
         /// </param>
-        public static object PutUserByUseridAndPatch(this IRestaurantUsers operations, string userId, string patch)
+        public static object PutRestaurantUserByUseridAndPatch(this IRestaurantUsers operations, string userId, string patch)
         {
             return Task.Factory.StartNew((object s) => 
             {
-                return ((IRestaurantUsers)s).PutUserByUseridAndPatchAsync(userId, patch);
+                return ((IRestaurantUsers)s).PutRestaurantUserByUseridAndPatchAsync(userId, patch);
             }
             , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -205,9 +205,9 @@ namespace UserClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public static async Task<object> PutUserByUseridAndPatchAsync(this IRestaurantUsers operations, string userId, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public static async Task<object> PutRestaurantUserByUseridAndPatchAsync(this IRestaurantUsers operations, string userId, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Microsoft.Rest.HttpOperationResponse<object> result = await operations.PutUserByUseridAndPatchWithOperationResponseAsync(userId, patch, cancellationToken).ConfigureAwait(false);
+            Microsoft.Rest.HttpOperationResponse<object> result = await operations.PutRestaurantUserByUseridAndPatchWithOperationResponseAsync(userId, patch, cancellationToken).ConfigureAwait(false);
             return result.Body;
         }
     }

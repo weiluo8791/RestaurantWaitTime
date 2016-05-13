@@ -49,7 +49,7 @@ namespace UserClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        Task<HttpOperationResponse<RestaurantUser>> PostUserByRestaurantuserWithOperationResponseAsync(RestaurantUser restaurantUser, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<HttpOperationResponse<RestaurantUser>> PostRestaurantUserByRestaurantuserWithOperationResponseAsync(RestaurantUser restaurantUser, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         
         /// <param name='userId'>
         /// Required.
@@ -60,6 +60,6 @@ namespace UserClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        Task<HttpOperationResponse<object>> PutUserByUseridAndPatchWithOperationResponseAsync(string userId, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<HttpOperationResponse<object>> PutRestaurantUserByUseridAndPatchWithOperationResponseAsync(string userId, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     }
 }

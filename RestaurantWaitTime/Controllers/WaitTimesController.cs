@@ -15,6 +15,11 @@ namespace RestaurantWaitTime.Controllers
     {
         private readonly RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
+        /// <summary>
+        /// Get the Latest Restaurant Wait Time
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(WaitTime))]
         [Route("api/GetLatestRestaurantWaitTime/{restaurantId}")]
@@ -29,7 +34,12 @@ namespace RestaurantWaitTime.Controllers
             return Ok(result);
         }
 
-
+        /// <summary>
+        /// Get Latest Restaurant WaitTime B yGroup (number in party 2,4,6,99)
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(WaitTime))]
         [Route("api/GetLatestRestaurantWaitTimeByGroup/{restaurantId}/{group}")]
@@ -45,6 +55,11 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // PUT: api/WaitTimes
+        /// <summary>
+        /// Post a new wait time
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPut]
         //[Authorize]
         [ResponseType(typeof(WaitTime))]
@@ -78,6 +93,7 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // DELETE: api/WaitTimes/5
+        //delete a wait time
         [Authorize]
         [HttpDelete]
         [ResponseType(typeof(WaitTime))]
