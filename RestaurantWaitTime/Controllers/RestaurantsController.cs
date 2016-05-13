@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.OData;
+using Microsoft.Azure.Mobile.Server.Authentication;
 using RestaurantWaitTime.Models;
 
 namespace RestaurantWaitTime.Controllers
@@ -36,9 +40,9 @@ namespace RestaurantWaitTime.Controllers
                     r.Cuisine,
                     r.Capacity
                 })
+                .OrderBy(c => c.Name)
                 //.OrderBy(c => Guid.NewGuid())
-                //.Take(150)
-                .OrderBy(c => c.Name);
+                .Take(50);
         }
 
 
@@ -79,6 +83,44 @@ namespace RestaurantWaitTime.Controllers
                 .FirstAsync();
 
             return Ok(result);
+        }
+
+        // GET: api/Restaurants/5
+        [HttpGet]
+        [Authorize]
+        [ResponseType(typeof(Restaurant))]
+        [Route("api/GetSubscribedRestaurants")]
+        public async Task<IHttpActionResult> GetSubscribedRestaurants()
+        {
+            string idpId = await GetIdpUser();
+            //string idpId = "TWITTER:COREISCOOL";
+
+            var userId = await _db.Users
+                .Where(a => a.IdpId == idpId)
+                .Select(a => a.UserId).FirstAsync();
+
+
+            var result = await _db.Subscriptions
+                 .Where(a => a.UserId == userId)
+                 .Select(a => new { restaurantId =  a.RestaurantId})
+                 .ToListAsync();
+
+            var subRest = (
+                from r in result
+                join s in _db.Restaurants on r.restaurantId equals s.RestaurantId
+                select new
+                {
+                    s.RestaurantId,
+                    s.Name,
+                    s.Address,
+                    s.City,
+                    s.State,
+                    s.Phone,
+                    s.Hours
+                }).ToList();
+
+
+            return Ok(subRest);
         }
 
         // POST: api/Restaurants/5
@@ -176,6 +218,34 @@ namespace RestaurantWaitTime.Controllers
         private bool RestaurantExists(string id)
         {
             return _db.Restaurants.Count(e => e.RestaurantId == id) > 0;
+        }
+
+        private async Task<string> GetIdpUser()
+        {
+            string userName = null;
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
+            string provider = principal?.FindFirst("http://schemas.microsoft.com/identity/claims/identityprovider").Value;
+
+            ProviderCredentials creds = null;
+            if (string.Equals(provider, "facebook", StringComparison.OrdinalIgnoreCase))
+            {
+                creds = await User.GetAppServiceIdentityAsync<FacebookCredentials>(Request);
+            }
+            else if (string.Equals(provider, "google", StringComparison.OrdinalIgnoreCase))
+            {
+                creds = await User.GetAppServiceIdentityAsync<GoogleCredentials>(Request);
+            }
+            else if (string.Equals(provider, "twitter", StringComparison.OrdinalIgnoreCase))
+            {
+                creds = await User.GetAppServiceIdentityAsync<TwitterCredentials>(Request);
+            }
+
+            if (creds != null)
+            {
+                userName = $"{creds.Provider}:{creds.UserId.ToUpper()}";
+            }
+
+            return userName;
         }
     }
 }

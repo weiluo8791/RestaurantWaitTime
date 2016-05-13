@@ -21,13 +21,18 @@ namespace UserClient
         /// </param>
         Task<HttpOperationResponse<Subscription>> DeleteSubscriptionByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<string>> GetSubscriptedRestaurantWithOperationResponseAsync(CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        
         /// <param name='id'>
         /// Required.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Subscription>> GetSubscriptionByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<HttpOperationResponse<Subscription>> GetSubscriptionByIdByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -45,12 +50,12 @@ namespace UserClient
         /// <param name='id'>
         /// Required.
         /// </param>
-        /// <param name='subscription'>
+        /// <param name='patch'>
         /// Required.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        Task<HttpOperationResponse<object>> PutSubscriptionByIdAndSubscriptionWithOperationResponseAsync(string id, Subscription subscription, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<HttpOperationResponse<object>> PutSubscriptionByIdAndPatchWithOperationResponseAsync(string id, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     }
 }

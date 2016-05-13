@@ -94,14 +94,38 @@ namespace UserClient
         /// <param name='operations'>
         /// Reference to the UserClient.IRestaurantUsers.
         /// </param>
-        /// <param name='userId'>
-        /// Required.
-        /// </param>
-        public static RestaurantUser GetRestaurantUserByUserid(this IRestaurantUsers operations, string userId)
+        public static RestaurantUser GetCurrentRestaurantUser(this IRestaurantUsers operations)
         {
             return Task.Factory.StartNew((object s) => 
             {
-                return ((IRestaurantUsers)s).GetRestaurantUserByUseridAsync(userId);
+                return ((IRestaurantUsers)s).GetCurrentRestaurantUserAsync();
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <param name='operations'>
+        /// Reference to the UserClient.IRestaurantUsers.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        public static async Task<RestaurantUser> GetCurrentRestaurantUserAsync(this IRestaurantUsers operations, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Microsoft.Rest.HttpOperationResponse<UserClient.Models.RestaurantUser> result = await operations.GetCurrentRestaurantUserWithOperationResponseAsync(cancellationToken).ConfigureAwait(false);
+            return result.Body;
+        }
+        
+        /// <param name='operations'>
+        /// Reference to the UserClient.IRestaurantUsers.
+        /// </param>
+        /// <param name='userId'>
+        /// Required.
+        /// </param>
+        public static RestaurantUser GetRestaurantUserByIdByUserid(this IRestaurantUsers operations, string userId)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IRestaurantUsers)s).GetRestaurantUserByIdByUseridAsync(userId);
             }
             , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -115,9 +139,9 @@ namespace UserClient
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public static async Task<RestaurantUser> GetRestaurantUserByUseridAsync(this IRestaurantUsers operations, string userId, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public static async Task<RestaurantUser> GetRestaurantUserByIdByUseridAsync(this IRestaurantUsers operations, string userId, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Microsoft.Rest.HttpOperationResponse<UserClient.Models.RestaurantUser> result = await operations.GetRestaurantUserByUseridWithOperationResponseAsync(userId, cancellationToken).ConfigureAwait(false);
+            Microsoft.Rest.HttpOperationResponse<UserClient.Models.RestaurantUser> result = await operations.GetRestaurantUserByIdByUseridWithOperationResponseAsync(userId, cancellationToken).ConfigureAwait(false);
             return result.Body;
         }
         

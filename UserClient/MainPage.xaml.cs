@@ -98,6 +98,7 @@ namespace UserClient
                 LoginLogoutButton.Background = new SolidColorBrush(Colors.Green);
                 TwitterRadioButton.IsEnabled = false;
                 GoogleRadioButton.IsEnabled = false;
+                Subscription.Visibility = Visibility.Visible;
             }
             else
             {
@@ -107,6 +108,7 @@ namespace UserClient
                 LoginLogoutButton.Content = "Login";
                 TwitterRadioButton.IsEnabled = true;
                 GoogleRadioButton.IsEnabled = true;
+                Subscription.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -142,7 +144,7 @@ namespace UserClient
                 // Verify that a result was returned
                 if (resultJson.HasValues)
                 {
-                    Subscription.Visibility = Visibility.Visible;
+
                 }
                 else
                 {
@@ -165,9 +167,116 @@ namespace UserClient
         }
 
 
-        private void Subscription_Click(object sender, RoutedEventArgs e)
+        private async void Subscription_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                StatusTextBlock.Text = "GET Request Made, waiting for response...";
+                StatusTextBlock.Foreground = new SolidColorBrush(Colors.White);
+                StatusBorder.Background = new SolidColorBrush(Colors.Blue);
+                // Let the user know something happening
+                progressBar.IsIndeterminate = true;
 
+                // get restaurantId by making the call asynchronously using GET verb
+                var resultJson = await App.MobileServiceDotNet.InvokeApiAsync("GetSubscribedRestaurants", HttpMethod.Get, null);
+
+                JArray a = (JArray)resultJson;
+
+                ObservableCollection<UserRestaurant> allRestaurant = new ObservableCollection<UserRestaurant>();
+
+                ListUserRestaurants = a.ToObject<List<UserRestaurant>>();
+
+                foreach (var pair in ListUserRestaurants)
+                    allRestaurant.Add(new UserRestaurant
+                        (pair.RestaurantId, pair.Name, pair.Address, pair.City, pair.State, pair.Phone, pair.Hours));
+
+                AllRestaurantListBox.DataContext = allRestaurant;
+
+
+                StatusBorder.Background = new SolidColorBrush(Colors.Green);
+                StatusTextBlock.Text = "Request completed!";
+
+                // Verify that a result was returned
+                if (resultJson.HasValues)
+                {
+                    Subscription.Visibility = Visibility.Collapsed;
+                    LoadAll.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    StatusBorder.Background = new SolidColorBrush(Colors.Orange);
+                    StatusTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                StatusTextBlock.Text = ex.Message;
+                StatusBorder.Background = new SolidColorBrush(Colors.Red);
+            }
+            finally
+            {
+                // Let the user know something happening
+                progressBar.IsIndeterminate = false;
+            }
+
+
+        }
+
+        private async void LoadAll_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                StatusTextBlock.Text = "GET Request Made, waiting for response...";
+                StatusTextBlock.Foreground = new SolidColorBrush(Colors.White);
+                StatusBorder.Background = new SolidColorBrush(Colors.Blue);
+                // Let the user know something happening
+                progressBar.IsIndeterminate = true;
+
+                // get restaurantId by making the call asynchronously using GET verb
+                var resultJson = await App.MobileServiceDotNet.InvokeApiAsync("GetAllRestaurants", HttpMethod.Get, null);
+
+                JArray a = (JArray)resultJson;
+
+                ObservableCollection<UserRestaurant> allRestaurant = new ObservableCollection<UserRestaurant>();
+
+                ListUserRestaurants = a.ToObject<List<UserRestaurant>>();
+
+                foreach (var pair in ListUserRestaurants)
+                    allRestaurant.Add(new UserRestaurant
+                        (pair.RestaurantId, pair.Name, pair.Address, pair.City, pair.State, pair.Phone, pair.Hours));
+
+                AllRestaurantListBox.DataContext = allRestaurant;
+
+
+                StatusBorder.Background = new SolidColorBrush(Colors.Green);
+                StatusTextBlock.Text = "Request completed!";
+
+                // Verify that a result was returned
+                if (resultJson.HasValues)
+                {
+                    Subscription.Visibility = Visibility.Visible;
+                    LoadAll.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    StatusBorder.Background = new SolidColorBrush(Colors.Orange);
+                    StatusTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                StatusTextBlock.Text = ex.Message;
+                StatusBorder.Background = new SolidColorBrush(Colors.Red);
+            }
+            finally
+            {
+                // Let the user know something happening
+                progressBar.IsIndeterminate = false;
+            }
         }
     }
 }

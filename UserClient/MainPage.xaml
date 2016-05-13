@@ -131,7 +131,18 @@
                 Click="Subscription_Click"
                 Content="Subscription"
                 FontSize="20" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Visibility="Collapsed" />
-        
+
+        <Button Name="LoadAll"
+                Grid.Row="1"
+                Width="293"
+                Height="58"
+                Margin="161,118,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="LoadAll_Click"
+                Content="Load Restaurants"
+                FontSize="20" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" Visibility="Collapsed" />
+
         <Button x:Name="LoginLogoutButton"
                 Grid.Row="1"
                 Width="134"

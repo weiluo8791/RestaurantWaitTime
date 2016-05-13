@@ -1,29 +1,38 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
+using Microsoft.Azure.Mobile.Server.Authentication;
 using RestaurantWaitTime.Models;
 
 namespace RestaurantWaitTime.Controllers
 {
     public class SubscriptionsController : ApiController
     {
-        private RestaurantWaitTimeContext db = new RestaurantWaitTimeContext();
+        private RestaurantWaitTimeContext _db = new RestaurantWaitTimeContext();
 
         // GET: api/Subscriptions
         public IQueryable<Subscription> GetSubscriptions()
         {
-            return db.Subscriptions;
+            return _db.Subscriptions;
         }
 
         // GET: api/Subscriptions/5
+        [Authorize]
+        [HttpGet]
         [ResponseType(typeof(Subscription))]
-        public async Task<IHttpActionResult> GetSubscription(string id)
+        [Route("api/GetSubscriptionById/{id}")]
+        public async Task<IHttpActionResult> GetSubscriptionById(string id)
         {
-            Subscription subscription = await db.Subscriptions.FindAsync(id);
+            Subscription subscription = await _db.Subscriptions.FindAsync(id);
             if (subscription == null)
             {
                 return NotFound();
@@ -33,24 +42,22 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // PUT: api/Subscriptions/5
+        [Authorize]
+        [HttpPatch]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutSubscription(string id, Subscription subscription)
+        public async Task<IHttpActionResult> PutSubscription(string id, Delta<Subscription> patch)
         {
-            if (!ModelState.IsValid)
+            Subscription subscription = await _db.Subscriptions.FindAsync(id);
+            if (subscription == null)
             {
-                return BadRequest(ModelState);
+                return NotFound();
             }
-
-            if (id != subscription.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(subscription).State = EntityState.Modified;
 
             try
             {
-                await db.SaveChangesAsync();
+                patch.Patch(subscription);
+                _db.Entry(subscription).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -58,29 +65,30 @@ namespace RestaurantWaitTime.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/Subscriptions
+        [HttpPost]
+        [Authorize]
         [ResponseType(typeof(Subscription))]
         public async Task<IHttpActionResult> PostSubscription(Subscription subscription)
         {
+            subscription.Id = Guid.NewGuid().ToString();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Subscriptions.Add(subscription);
+            _db.Subscriptions.Add(subscription);
 
             try
             {
-                await db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -98,17 +106,19 @@ namespace RestaurantWaitTime.Controllers
         }
 
         // DELETE: api/Subscriptions/5
+        [Authorize]
+        [HttpDelete]
         [ResponseType(typeof(Subscription))]
         public async Task<IHttpActionResult> DeleteSubscription(string id)
         {
-            Subscription subscription = await db.Subscriptions.FindAsync(id);
+            Subscription subscription = await _db.Subscriptions.FindAsync(id);
             if (subscription == null)
             {
                 return NotFound();
             }
 
-            db.Subscriptions.Remove(subscription);
-            await db.SaveChangesAsync();
+            _db.Subscriptions.Remove(subscription);
+            await _db.SaveChangesAsync();
 
             return Ok(subscription);
         }
@@ -117,14 +127,42 @@ namespace RestaurantWaitTime.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool SubscriptionExists(string id)
         {
-            return db.Subscriptions.Count(e => e.Id == id) > 0;
+            return _db.Subscriptions.Count(e => e.Id == id) > 0;
+        }
+
+        private async Task<string> GetIdpUser()
+        {
+            string userName = null;
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
+            string provider = principal?.FindFirst("http://schemas.microsoft.com/identity/claims/identityprovider").Value;
+
+            ProviderCredentials creds = null;
+            if (string.Equals(provider, "facebook", StringComparison.OrdinalIgnoreCase))
+            {
+                creds = await User.GetAppServiceIdentityAsync<FacebookCredentials>(Request);
+            }
+            else if (string.Equals(provider, "google", StringComparison.OrdinalIgnoreCase))
+            {
+                creds = await User.GetAppServiceIdentityAsync<GoogleCredentials>(Request);
+            }
+            else if (string.Equals(provider, "twitter", StringComparison.OrdinalIgnoreCase))
+            {
+                creds = await User.GetAppServiceIdentityAsync<TwitterCredentials>(Request);
+            }
+
+            if (creds != null)
+            {
+                userName = $"{creds.Provider}:{creds.UserId.ToUpper()}";
+            }
+
+            return userName;
         }
     }
 }

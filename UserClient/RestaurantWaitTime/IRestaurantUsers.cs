@@ -30,13 +30,18 @@ namespace UserClient
         /// </param>
         Task<HttpOperationResponse<string>> GetCurrentRestaurantWithOperationResponseAsync(CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<RestaurantUser>> GetCurrentRestaurantUserWithOperationResponseAsync(CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        
         /// <param name='userId'>
         /// Required.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        Task<HttpOperationResponse<RestaurantUser>> GetRestaurantUserByUseridWithOperationResponseAsync(string userId, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<HttpOperationResponse<RestaurantUser>> GetRestaurantUserByIdByUseridWithOperationResponseAsync(string userId, CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         
         /// <param name='restaurantUser'>
         /// Required.

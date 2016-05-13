@@ -149,13 +149,111 @@ namespace UserClient
             return result;
         }
         
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        public async Task<HttpOperationResponse<string>> GetSubscriptedRestaurantWithOperationResponseAsync(CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // Tracing
+            bool shouldTrace = ServiceClientTracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = ServiceClientTracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                ServiceClientTracing.Enter(invocationId, this, "GetSubscriptedRestaurantAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/api/GetSubscriptedRestaurant";
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = new HttpRequestMessage();
+            httpRequest.Method = HttpMethod.Get;
+            httpRequest.RequestUri = new Uri(url);
+            
+            // Set Credentials
+            if (this.Client.Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            }
+            
+            // Send Request
+            if (shouldTrace)
+            {
+                ServiceClientTracing.SendRequest(invocationId, httpRequest);
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+            HttpResponseMessage httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            if (shouldTrace)
+            {
+                ServiceClientTracing.ReceiveResponse(invocationId, httpResponse);
+            }
+            HttpStatusCode statusCode = httpResponse.StatusCode;
+            cancellationToken.ThrowIfCancellationRequested();
+            string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if (statusCode != HttpStatusCode.OK)
+            {
+                HttpOperationException<object> ex = new HttpOperationException<object>();
+                ex.Request = httpRequest;
+                ex.Response = httpResponse;
+                ex.Body = null;
+                if (shouldTrace)
+                {
+                    ServiceClientTracing.Error(invocationId, ex);
+                }
+                throw ex;
+            }
+            
+            // Create Result
+            HttpOperationResponse<string> result = new HttpOperationResponse<string>();
+            result.Request = httpRequest;
+            result.Response = httpResponse;
+            
+            // Deserialize Response
+            if (statusCode == HttpStatusCode.OK)
+            {
+                string resultModel = default(string);
+                JToken responseDoc = null;
+                if (string.IsNullOrEmpty(responseContent) == false)
+                {
+                    responseDoc = JToken.Parse(responseContent);
+                }
+                if (responseDoc != null)
+                {
+                    resultModel = responseDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                }
+                result.Body = resultModel;
+            }
+            
+            if (shouldTrace)
+            {
+                ServiceClientTracing.Exit(invocationId, result);
+            }
+            return result;
+        }
+        
         /// <param name='id'>
         /// Required.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<Subscription>> GetSubscriptionByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<HttpOperationResponse<Subscription>> GetSubscriptionByIdByIdWithOperationResponseAsync(string id, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // Validate
             if (id == null)
@@ -171,12 +269,12 @@ namespace UserClient
                 invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
-                ServiceClientTracing.Enter(invocationId, this, "GetSubscriptionByIdAsync", tracingParameters);
+                ServiceClientTracing.Enter(invocationId, this, "GetSubscriptionByIdByIdAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
-            url = url + "/api/Subscriptions/";
+            url = url + "/api/GetSubscriptionById/";
             url = url + Uri.EscapeDataString(id);
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
             // Trim '/' character from the end of baseUrl and beginning of url.
@@ -476,22 +574,22 @@ namespace UserClient
         /// <param name='id'>
         /// Required.
         /// </param>
-        /// <param name='subscription'>
+        /// <param name='patch'>
         /// Required.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> PutSubscriptionByIdAndSubscriptionWithOperationResponseAsync(string id, Subscription subscription, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<HttpOperationResponse<object>> PutSubscriptionByIdAndPatchWithOperationResponseAsync(string id, string patch, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // Validate
             if (id == null)
             {
                 throw new ArgumentNullException("id");
             }
-            if (subscription == null)
+            if (patch == null)
             {
-                throw new ArgumentNullException("subscription");
+                throw new ArgumentNullException("patch");
             }
             
             // Tracing
@@ -502,8 +600,8 @@ namespace UserClient
                 invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
-                tracingParameters.Add("subscription", subscription);
-                ServiceClientTracing.Enter(invocationId, this, "PutSubscriptionByIdAndSubscriptionAsync", tracingParameters);
+                tracingParameters.Add("patch", patch);
+                ServiceClientTracing.Enter(invocationId, this, "PutSubscriptionByIdAndPatchAsync", tracingParameters);
             }
             
             // Construct URL
@@ -525,7 +623,7 @@ namespace UserClient
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = new HttpRequestMessage();
-            httpRequest.Method = HttpMethod.Put;
+            httpRequest.Method = new HttpMethod("PATCH");
             httpRequest.RequestUri = new Uri(url);
             
             // Set Headers
@@ -539,7 +637,7 @@ namespace UserClient
             
             // Serialize Request
             string requestContent = null;
-            JToken requestDoc = subscription.SerializeJson(null);
+            JToken requestDoc = new JValue(patch);
             requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
             httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
             httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
