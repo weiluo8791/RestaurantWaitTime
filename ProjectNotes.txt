@@ -1,0 +1,43 @@
+Assignment title and number:	Final Project Restaurant Wait Time
+Name:				Wei Qi Luo
+Email:				iqboss@gmail.com
+Platform:			Windows Universal App
+
+Notes:
+RestaurantWaitTime					Contain Server and Client code
+RestaurantWaitTime/RestaurantWaitTime			Rest API code
+RestaurantWaitTime/RestaurantClient			Restaurant User Client Code
+RestaurantWaitTime/UserClient				User Client Code
+Data 							Active_Food_Establishment.txt (All Restaurant from City of Boston Loaded in Azure SQL
+Azure Swagger:						https://restaurantwaittime.azurewebsites.net/swagger/
+
+To better test the restaurant I enabled code first migration and initializedthe database with data from all Boston restaurant.
+I can do the code first migration on Azure and have it created the database and table however I can not figure out how to initialize the database over in Azure. 
+So I did it on my local from reading a local text file source. Then from which I generated the SQL insert statement and copy and run in the SQL Server Object Explorer.
+code first migration with the following 
+>enable-migrations
+>add-migration Initial
+>update-database
+
+I did not get as much done as I am hopping for. Current the project is just missing few piece. 
+I did not have Web Job
+I did not have Redis Cache
+I did not have Notification Hubs
+I did use Blob for logging 
+
+I manage to finish all the Web API and most of the Client application. I did not do the registration piece 
+
+1. run RestaurantClient you will see the what the resturant user going to use to update resturant information and
+update wait time. There are no registration piece yet so I insert a test user haing my own idpUser. You can not do anything
+until you log in. So you can log in with iqboss@gmail.com/wei8791 (I will change later and I do not use that account very much)
+After log in you will see you restruant information. You can update any information there it will auo save. Click wait time
+bring you to the screen where you can enter your restaurant wait time by party size you can also change the date and time.
+
+2. Run the UserClient you will see what the user will see. It will first load the first 150 restaurant. I plan to go it with 
+geo-location but couldn't so I just loaded a list there. From there you can click on each restaurant to see the wait time. Only 1 
+restaurant is assoicated with 1 restaurant  (#7 restaurant ) so only that one will work. Click on it will show you the most updated
+wait time from that restaurant. You can also log in (same iqboss@gmail.com/wei8791) then you will see a Subscription button. Click on it will 
+show you what the user subscribed to. You can click on the restaurant again to see the wait time just like previously.
+
+If you need any more information regrading the implemention and access to anything please let me know. I am really running time on this project 
+but I really enjoyed the class. 
